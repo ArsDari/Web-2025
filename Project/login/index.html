@@ -2,25 +2,23 @@
 <html lang="ru">
 
 <head>
-    <title>Авторизация</title>
+    <title>Войти</title>
+    <link href="../fonts/font.css" rel="stylesheet">
+    <link href="login.css" rel="stylesheet">
 </head>
 
 <body>
-    <div>
-        <p>Войти</p>
-        <img src="login.png" alt="Тут должна быть картинка" width="462" height="501">
+    <div class="title">
+        <h1 class="title__text">Войти</h1>
+        <img class="title__image" src="../media/images/login.jpg" alt="Ошибка">
     </div>
-    <form>
-        <div>
-            <p>Электропочта</p>
-            <input type="text">
-            <p>Введите электропочту в формате *****@***.**</p>
-        </div>
-        <div>
-            <p>Пароль</p>
-            <input type="password">
-        </div>
-        <input type="submit" value="Продолжить">
+    <form class="form">
+        <label for="email" class="form__label">Электропочта</label>
+        <input id="email" type="email" class="form__input">
+        <span class="form__input-info">Введите электропочту в формате *****@***.**</span>
+        <label for="password" class="form__label">Пароль</label>
+        <input id="password" type="password" class="form__input">
+        <input type="submit" class="form__button">
     </form>
 </body>
 

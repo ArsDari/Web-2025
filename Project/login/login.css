@@ -1,10 +1,73 @@
-@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+* {
+    box-sizing: border-box;
+}
 
-.loginText {
-    font-family: 'Golos Text';
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: -0.15px;
+.title__text {
+    font: 700 140px/1.28 "Golos UI", sans-serif;
     color: #222222;
+    letter-spacing: -1.5px;
+}
+
+.title__image {
+    max-width: 100%;
+}
+
+.form {
+    min-width: 343px;
+}
+
+.form__label {
+    display: block;
+    font: 400 15px/1.2 "Golos UI", sans-serif;
+    color: #222222;
+    letter-spacing: -0.15px;
+    margin-bottom: 5px;
+}
+
+.form__input {
+    display: block;
+    margin-bottom: 5px;
+    width: 100%;
+    border: 1px solid #F2F3F5;
+    background-color: #F2F3F5;
+    border-radius: 10px;
+    padding: 13px 12px;
+    font: 400 15px/1.2 "Golos UI", sans-serif;
+    transition: border 0.3s ease;
+}
+
+.form__input:focus {
+    outline: none;
+    border: 1px solid #3F8AE0;
+}
+
+.form__input-info {
+    display: block;
+    margin-bottom: 15px;
+    font: 400 13px/1.2 "Golos UI", sans-serif;
+    letter-spacing: -0.08px;
+    color: #808080;
+}
+
+.form__button {
+    width: 100%;
+    margin-top: 32px;
+    font: 500 16px "Golos UI", sans-serif;
+    display: block;
+    color: white;
+    background-color: #222222;
+    border-radius: 10px;
+    padding: 14.5px;
+    border: 2px solid #222222;
+    transition: border, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.form__button:focus {
+    border: 2px solid #3F8AE0;
+}
+
+.form__button:disabled {
+    border: 2px solid #B4B4B4;
+    background-color: #B4B4B4;
 }
