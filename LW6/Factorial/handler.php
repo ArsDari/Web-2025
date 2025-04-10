@@ -1,12 +1,10 @@
 <?php
 
 function Factorial($n): int {
-    if ($n == 0) {
+    if ($n === 0)
         return 1;
-    }
-    else {
+    else
         return $n * Factorial($n - 1);
-    }
 }
 
 $number = $_GET["number"];

@@ -1,24 +1,35 @@
 <?php
 
-$zodiacIntervals = [
-    'Водолей' => ['21.01', '19.02'],
-    'Рыбы' => ['20.02', '20.03'],
-    'Овен' => ['21.03', '20.04'],
-    'Телец' => ['21.04', '21.05'],
-    'Близнецы' => ['22.05', '21.06'],
-    'Рак' => ['22.06', '22.07'],
-    'Лев' => ['23.07', '21.08'],
-    'Дева' => ['22.08', '23.09'],
-    'Весы' => ['24.09', '23.10'],
-    'Скорпион' => ['24.10', '22.11'],
-    'Стрелец' => ['23.11', '22.12'],
-    'Козерог' => ['23.12', '20.01'],
-];
+if (isset($_GET["input"]))
+{
+    $input = $_GET["input"];
+    $day = substr($input, 0, 2);
+    $month = substr($input, 3, 2);
 
-$input = $_GET["input"];
-$day = substr($input, 0, 2);
-$month = substr($input, 3, 2);
-if ($month)
-echo $month;
+    if ($day >== 21 && $month === 1) || ($day <== 19 && $month === 2)
+        echo "Водолей";
+    elseif ($day >== 20 && $month === 2) || ($day <== 20 && $month === 3)
+        echo "Рыбы";
+    elseif ($day >== 21 && $month === 3) || ($day <== 20 && $month === 4)
+        echo "Овен";
+    elseif ($day >== 21 && $month === 4) || ($day <== 21 && $month === 5)
+        echo "Телец";
+    elseif ($day >== 22 && $month === 5) || ($day <== 21 && $month === 6)
+        echo "Близнецы";
+    elseif ($day >== 22 && $month === 6) || ($day <== 22 && $month === 7)
+        echo "Рак";
+    elseif ($day >== 23 && $month === 7) || ($day <== 21 && $month === 8)
+        echo "Лев";
+    elseif ($day >== 22 && $month === 8) || ($day <== 23 && $month === 9)
+        echo "Дева";
+    elseif ($day >== 24 && $month === 9) || ($day <== 23 && $month === 10)
+        echo "Весы";
+    elseif ($day >== 24 && $month === 10) || ($day <== 22 && $month === 11)
+        echo "Скорпион";
+    elseif ($day >== 23 && $month === 11) || ($day <== 22 && $month === 12)
+        echo "Стрелец";
+    else
+        echo "Козерог"
+}
 
 ?>

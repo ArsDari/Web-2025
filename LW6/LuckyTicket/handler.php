@@ -1,7 +1,7 @@
 <?php
 
-$start = $_GET['start'];
-$end = $_GET['end'];
+$start = $_GET["start"];
+$end = $_GET["end"];
 for ($start; $start < $end; $start++) {
     $a = intdiv($start, 100000) % 10;
     $b = intdiv($start, 10000) % 10;
@@ -9,10 +9,8 @@ for ($start; $start < $end; $start++) {
     $d = intdiv($start, 100) % 10;
     $e = intdiv($start, 10) % 10;
     $f = $start % 10;
-    if ($a + $b + $c == $d + $e + $f)
+    if ($a + $b + $c === $d + $e + $f)
         echo $a . $b . $c . $d . $e . $f . "<br>";
-    // echo substr($start, 0, 3). substr($start, 2, 3);
-    // echo '\n';
 }
 
 ?>
