@@ -32,6 +32,8 @@ switch ($input) {
     case "9":
         echo "Девять";
         break;
+    default:
+        echo "Вне диапазона";
 }
 
 ?>

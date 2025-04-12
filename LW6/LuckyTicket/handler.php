@@ -3,7 +3,7 @@
 $start = $_GET["start"];
 $end = $_GET["end"];
 for ($start; $start < $end; $start++) {
-    $a = intdiv($start, 100000) % 10;
+    $a = intdiv($start, 100000);
     $b = intdiv($start, 10000) % 10;
     $c = intdiv($start, 1000) % 10;
     $d = intdiv($start, 100) % 10;
