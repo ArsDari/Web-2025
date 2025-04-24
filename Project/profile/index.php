@@ -15,7 +15,7 @@ $users = json_decode(file_get_contents(PATH_JSON . 'users.json'), true);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Заглавная</title>
+    <title>Профиль</title>
 </head>
 
 <body>
@@ -24,14 +24,7 @@ $users = json_decode(file_get_contents(PATH_JSON . 'users.json'), true);
         <img class="tree_icon" src="<?= PATH_ICON . 'user.svg' ?>" alt="Профиль" />
         <img class="tree_icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
     </div>
-    <div class="feed">
-        <?php
-
-        foreach ($posts as $post)
-            include '../content/templates/post.php';
-
-        ?>
-    </div>
+    <?php include_once '../content/templates/profile.php'; ?>
 </body>
 
 </html>

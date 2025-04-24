@@ -26,6 +26,6 @@ foreach ($input as $element)
     }
 }
 
-echo array_pop($queue);
+echo array_pop($stack);
 
 ?>

@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "role": "admin",
+        "mail": "vanya_denisov@mail.ru",
+        "password": "qwerasdf",
+        "when_joined": 1743070000,
+
+        "name": "Ваня Денисов",
+        "profile_picture": "vanya_denisov.jpg",
+        "description": "Привет! Я системный аналитик в ACME :) Тут моя жизнь только для самых классных!",
+
+        "posts":
+        [
+            1
+        ]
+    },
+    {
+        "id": 2,
+        "role": "user",
+        "mail": "lisa_demina@mail.ru",
+        "password": "123456",
+        "when_joined": 1743070032,
+
+        "name": "Лиза Дёмина",
+        "profile_picture": "lisa_demina.jpg",
+        "description": "Я абобус",
+
+        "posts":
+        [
+            2
+        ]
+    }
+]

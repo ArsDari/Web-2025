@@ -1,3 +1,10 @@
+<?php
+
+const PATH_IMAGE = '../content/media/images/';
+$loginImage = PATH_IMAGE . 'login.jpg';
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -10,7 +17,7 @@
 <body>
     <div class="title">
         <h1 class="title__text">Войти</h1>
-        <img class="title__image" src="../media/images/login.jpg" alt="Ошибка">
+        <img class="title__image" src="<?= $loginImage ?>" alt="Ошибка">
     </div>
     <form class="form">
         <label for="email" class="form__label">Электропочта</label>
