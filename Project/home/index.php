@@ -1,5 +1,7 @@
 <?php
 
+require_once('../content/templates/utilities.php');
+
 const PATH_JSON = '../content/json/';
 const PATH_ICON = '../content/media/icons/';
 const PATH_IMAGE = '../content/media/images/';
@@ -28,7 +30,23 @@ $users = json_decode(file_get_contents(PATH_JSON . 'users.json'), true);
         <?php
 
         foreach ($posts as $post)
-            include '../content/templates/post.php';
+        {
+            $current_user_id = 1;
+
+            $user = $users[$post['user_id'] - 1];
+            $profileName = $user['name'];
+            $profilePicture = PATH_IMAGE . $user['profile_picture'];
+            $drawIconEdit = $current_user_id === $post['user_id'];
+
+            $postImagePointer = 0;
+            $postImage = PATH_IMAGE . $post['images'][$postImagePointer];
+            $postText = $post['text'];
+
+            $postTime = $post['timestamp'];
+            $deltaTime = time() - $postTime;
+
+            require '../content/templates/post.php';
+        }
 
         ?>
     </div>
