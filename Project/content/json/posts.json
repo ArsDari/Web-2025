@@ -2,92 +2,78 @@
     {
         "id": 1,
         "user_id": 1,
-        "timestamp": 1734000070,
+        "created_timestamp": 1734000070,
         "images":
         [
             "vanya_denisov_post.jpg"
         ],
         "text": "Так красиво сегодня на улице! Настоящая зима)) Вспоминается Бродский: «Поздно ночью, в уснувшей долине, на самом дне, в городке, занесенном снегом по ручку двери...»",
-        "changed": false,
-        "changed_timestamp": 0,
         "likes": 203
     },
     {
         "id": 2,
         "user_id": 2,
-        "timestamp": 1743010010,
+        "created_timestamp": 1743010010,
         "images":
         [
             "lisa_demina_post.jpg"
         ],
         "text": "Сегодня я на вебе",
-        "changed": false,
-        "changed_timestamp": 0,
         "likes": 666
     },
     {
         "id": 3,
         "user_id": 1,
-        "timestamp": 1734500070,
+        "created_timestamp": 1734500070,
         "images":
         [
             "post_image_1.jpg"
         ],
         "text": "Кто я?",
-        "changed": false,
-        "changed_timestamp": 0,
-        "likes": 203
+        "likes": 0
     },
     {
         "id": 4,
         "user_id": 1,
-        "timestamp": 1734506070,
+        "created_timestamp": 1734506070,
         "images":
         [
             "post_image_2.jpg"
         ],
         "text": "Где я?",
-        "changed": false,
-        "changed_timestamp": 0,
-        "likes": 203
+        "likes": 1
     },
     {
         "id": 5,
         "user_id": 1,
-        "timestamp": 1731000070,
+        "created_timestamp": 1731000070,
         "images":
         [
             "post_image_3.jpg"
         ],
         "text": "Сколько сейчас времени?",
-        "changed": false,
-        "changed_timestamp": 0,
-        "likes": 203
+        "likes": 2
     },
     {
         "id": 6,
         "user_id": 1,
-        "timestamp": 1712310070,
+        "created_timestamp": 1712310070,
         "images":
         [
             "post_image_4.jpg"
         ],
         "text": "Почему тут так пусто?",
-        "changed": false,
-        "changed_timestamp": 0,
-        "likes": 203
+        "likes": 3
     },
     {
         "id": 7,
         "user_id": 1,
-        "timestamp": 1732000070,
+        "created_timestamp": 1732000070,
         "images":
         [
             "post_image_5.jpg"
         ],
         "text": "Как мне выбраться?",
-        "changed": false,
-        "changed_timestamp": 0,
-        "likes": 203
+        "likes": 7
     }
 ]

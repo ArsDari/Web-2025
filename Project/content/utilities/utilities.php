@@ -28,8 +28,9 @@ function caseNumber($number, $titles)
     return $titles[($number % 100 > 4 && $number % 100 < 20) ? 2 : $cases[min($number % 10, 5)]];
 }
 
-function echoTime($deltaTime, $timestamp)
+function echoTime($timestamp)
 {
+    $deltaTime = time() - $timestamp;
     $postTimeString = '';
     if ($deltaTime === 0)
     {
@@ -61,23 +62,24 @@ function echoTime($deltaTime, $timestamp)
     return $postTimeString . ' назад';
 }
 
-function printPost($posts, $userPosts)
+function printGridOfPosts($userPosts, $row)
 {
-    if ($userPosts)
+    for ($iter = 0; $iter < count($userPosts); $iter++)
     {
-        for ($iter = 0; $iter < count($userPosts); $iter++)
+        $post = $userPosts[$iter];
+        $postImage = $post['images'][0];
+        if ($iter % $row == 0)
         {
-            $post = $posts[$userPosts[$iter] - 1];
-            $postImage = $post['images'][0];
-            if (!($iter % ROW))
-                echo '<tr class="profile__posts__row">';
-            echo '<td class="profile__posts__row_element">';
-            echo '<img class="profile__posts__post_image" src="' . PATH_IMAGE . $postImage . '" width="322" height="322" alt="Пост" />';
-            echo '</td>';
-            if (!($iter + 1 % ROW))
-                echo '</tr>';
+            echo '<tr class="posts__row">';
         }
-    }    
+        echo '<td class="post">';
+        echo '<img class="post__image" src="' . PATH_IMAGE . $postImage . '" width="322" height="322" alt="Пост" />';
+        echo '</td>';
+        if (($iter + 1) % $row == 0)
+        {
+            echo '</tr>';
+        }
+    }
 }
 
 ?>
