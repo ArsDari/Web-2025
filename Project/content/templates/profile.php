@@ -10,7 +10,7 @@
     </div>
     <table class="posts">
         <tbody>
-            <?php printGridOfPosts($userPosts, ROW); ?>
+            <?php printGridOfPosts($userPosts, $connection, ROW); ?>
         </tbody>
     </table>
 </div>

@@ -8,6 +8,10 @@ VALUES (
     "vanya_denisov_post.jpg"
 ),
 (
+    1,
+    "post_image_5.jpg"
+),
+(
     2,
     "lisa_demina_post.jpg"
 ),

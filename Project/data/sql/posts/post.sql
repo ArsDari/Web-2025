@@ -1,7 +1,7 @@
 INSERT INTO
     post (
         user_id,
-        post_text,
+        text,
         likes
     )
 VALUES (

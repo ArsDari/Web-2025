@@ -1,15 +1,15 @@
 CREATE TABLE post (
-	id INT UNSIGNED AUTO_INCREMENT,
+	id INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,
     user_id INT UNSIGNED NOT NULL,
     created_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    post_text TEXT,
+    text TEXT,
     likes INT UNSIGNED DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE user (
-    id INT UNSIGNED AUTO_INCREMENT,
-    email TEXT,
+    id INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,
+    email VARCHAR(255),
     password TEXT,
     name VARCHAR(255),
     profile_picture VARCHAR(255),
@@ -22,3 +22,11 @@ CREATE TABLE image (
     image_path VARCHAR(255),
     PRIMARY KEY (post_id, image_path)
 );
+
+/*
+
+mysql -u root
+
+USE blog для использование БД blog
+
+*/
