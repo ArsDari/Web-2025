@@ -30,17 +30,18 @@ const MONTH_LIST = [
 
 function caseNumber($number, $titles)
 {
-    $cases = array(2, 0, 1, 1, 1, 2);
+    $cases = [2, 0, 1, 1, 1, 2];
     return $titles[($number % 100 > 4 && $number % 100 < 20) ? 2 : $cases[min($number % 10, 5)]];
 }
 
 function caseTime($timestamp)
 {
-    $deltaTime = time() - $timestamp; // возвращает строку исходя из дельты АБСОЛЮТНОГО времени и АБСОЛЮТНОГО времени поста
-    // АБСОЛЮТНОЕ время поста не может быть позже текущего АБСОЛЮТНОГО времени, потому что epoch для всех устройств одинаковое
-    // пост в будущем времени не может быть, это логическая ошибка. А чтобы сделать запланированный пост, надо его выложить по
-    // достижению АБСОЛЮТНОГО времени
-    if ($deltaTime == 0)
+    $deltaTime = time() - $timestamp;
+    if ($deltaTime < 0)
+    {
+        return 'Ошибка';
+    }
+    elseif ($deltaTime == 0)
     {
         return 'Только что';
     }
@@ -55,12 +56,12 @@ function caseTime($timestamp)
     }
     elseif (SECONDS_IN_HOUR < $deltaTime && $deltaTime <= SECONDS_IN_DAY)
     {
-        $deltaTime = intdiv($deltaTime, SECONDS_IN_MINUTE * MINUTES_IN_HOUR);
+        $deltaTime = intdiv($deltaTime, SECONDS_IN_HOUR);
         return $deltaTime . ' ' . caseNumber($deltaTime, HOUR_CASES) . ' назад';
     }
     elseif (SECONDS_IN_DAY < $deltaTime && $deltaTime <= SECONDS_IN_MONTH)
     {
-        $deltaTime = intdiv($deltaTime, SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY);
+        $deltaTime = intdiv($deltaTime, SECONDS_IN_DAY);
         return $deltaTime . ' ' . caseNumber($deltaTime, DAY_CASES) . ' назад';
     }
     else

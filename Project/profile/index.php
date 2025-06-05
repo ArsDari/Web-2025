@@ -5,14 +5,13 @@ const PATH_ICON = '../content/media/icons/';
 const PATH_IMAGE = '../content/media/images/';
 const ROW = 3;
 
-require('../database.php');
+// require '../database.php';
 
-$connection = connectToDatabase();
-$posts = getPostsFromDB($connection);
-$users = getUsersFromDB($connection);
+// $posts = getPostsFromDB($connection);
+// $users = getUsersFromDB($connection);
 
-// $posts = json_decode(file_get_contents(PATH_JSON . 'posts.json'), true);
-// $users = json_decode(file_get_contents(PATH_JSON . 'users.json'), true);
+$posts = json_decode(file_get_contents(PATH_JSON . 'posts.json'), true);
+$users = json_decode(file_get_contents(PATH_JSON . 'users.json'), true);
 
 $userId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 if (!$userId)
@@ -24,7 +23,7 @@ if (!$userId)
 $foundUser = NULL;
 foreach ($users as $user)
 {
-    if ($userId === $user['id'])
+    if ($userId == $user['id'])
     {
         $foundUser = $user;
         break;
@@ -37,13 +36,35 @@ if (!$foundUser)
     exit();
 }
 
-function printGridOfPosts($userPosts, $connection, $row)
+// function printGridOfPosts($userPosts, $connection, $row) // database implementation
+// {
+//     for ($iter = 0; $iter < count($userPosts); $iter++)
+//     {
+//         $post = $userPosts[$iter];
+//         $postImages = getImageFromDB($connection, $post['id']);
+//         $postImage = $postImages[0]['image_path'];
+
+//         if ($iter % $row == 0)
+//         {
+//             echo '<tr class="posts__row">';
+//         }
+//         echo '<td class="post">';
+//         echo '<img class="post__image" src="' . PATH_IMAGE . $postImage . '" width="322" height="322" alt="Пост" />';
+//         echo '</td>';
+//         if (($iter + 1) % $row == 0)
+//         {
+//             echo '</tr>';
+//         }
+//     }
+// }
+
+function printGridOfPosts($userPosts, $row) // json implementation
 {
     for ($iter = 0; $iter < count($userPosts); $iter++)
     {
         $post = $userPosts[$iter];
-        $postImages = getImageFromDB($connection, $post['id']);
-        $postImage = $postImages[0]['image_path'];
+        $postImages = $post['images'];
+        $postImage = $postImages[0];
 
         if ($iter % $row == 0)
         {
@@ -85,7 +106,7 @@ function printGridOfPosts($userPosts, $connection, $row)
     $userPosts = [];
     foreach ($posts as $post)
     {
-        if ($userId === $post['user_id'])
+        if ($userId == $post['user_id'])
         {
             array_push($userPosts, $post);
         }

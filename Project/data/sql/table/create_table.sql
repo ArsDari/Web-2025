@@ -1,3 +1,7 @@
+CREATE DATABASE blog;
+
+USE blog;
+
 CREATE TABLE post (
 	id INT UNSIGNED AUTO_INCREMENT UNIQUE NOT NULL,
     user_id INT UNSIGNED NOT NULL,
@@ -26,7 +30,5 @@ CREATE TABLE image (
 /*
 
 mysql -u root
-
-USE blog для использование БД blog
 
 */

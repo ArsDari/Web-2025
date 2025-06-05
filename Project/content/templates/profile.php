@@ -10,7 +10,8 @@
     </div>
     <table class="posts">
         <tbody>
-            <?php printGridOfPosts($userPosts, $connection, ROW); ?>
+            <?php printGridOfPosts($userPosts, ROW) // json implementation
+                  // printGridOfPosts($userPosts, $connection, ROW); // database implementation ?>
         </tbody>
     </table>
 </div>

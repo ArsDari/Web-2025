@@ -7,12 +7,8 @@
         <?php } ?>
     </div>
     <div class="body">
-        <div class="image">
-            <?php if ($showSlider) { ?>
-            <div class="indicator"></div>
-            <div class="slider"></div>
-            <?php } ?>
-            <img class="image__current-image" src="<?= $postImage ?>" width="474" height="474" alt="Ошибка" />
+        <div class="images">
+            <img class="images__image" src="<?= $postImage ?>" width="474" height="474" alt="Ошибка" />
         </div>
         <div class="body__text"><?= $postText ?></div>
         <div class="body__timestamp"><?= caseTime($postTime) ?></div>

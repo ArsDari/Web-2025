@@ -15,7 +15,7 @@ function generateResponse(arg) {
         }
         return arg + ' не является простым или составным числом';
     }
-    return arg + ' не является натуральным числом';
+    return 'переданный аргумент не является натуральным числом';
 }
 
 function isPrimeNumber(arg) {
@@ -32,6 +32,7 @@ function isPrimeNumber(arg) {
 }
 
 console.log(isPrimeNumber());
+console.log(isPrimeNumber({}));
 console.log(isPrimeNumber(3));
 console.log(isPrimeNumber(0));
 console.log(isPrimeNumber(1));
