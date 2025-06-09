@@ -3,17 +3,36 @@
 const PATH_JSON = '../content/json/';
 const PATH_ICON = '../content/media/icons/';
 const PATH_IMAGE = '../content/media/images/';
+const POST_STRING_CASES = ['пост', 'поста', 'постов'];
 const ROW = 3;
 
-// require '../database.php';
+require '../database.php';
+require '../content/utilities/validation.php';
+require '../content/utilities/caseHandler.php';
 
-// $posts = getPostsFromDB($connection);
-// $users = getUsersFromDB($connection);
+try
+{
+    $connection = connectToDatabase();
+}
+catch (PDOException $exception)
+{
+    echo "Ошибка подключения к базе данных: " . $exception->getMessage();
+    exit(1);
+}
 
-$posts = json_decode(file_get_contents(PATH_JSON . 'posts.json'), true);
-$users = json_decode(file_get_contents(PATH_JSON . 'users.json'), true);
+$posts = getPostsFromDB($connection);
+$users = getUsersFromDB($connection);
 
-$userId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+$userId = null;
+if (isset($_GET['id']))
+{
+    $recievedId = $_GET['id'];
+    if (validateId($recievedId))
+    {
+        $userId = $recievedId;
+    };
+}
+
 if (!$userId)
 {
     header('Location: ../home');
@@ -36,47 +55,13 @@ if (!$foundUser)
     exit();
 }
 
-// function printGridOfPosts($userPosts, $connection, $row) // database implementation
-// {
-//     for ($iter = 0; $iter < count($userPosts); $iter++)
-//     {
-//         $post = $userPosts[$iter];
-//         $postImages = getImageFromDB($connection, $post['id']);
-//         $postImage = $postImages[0]['image_path'];
-
-//         if ($iter % $row == 0)
-//         {
-//             echo '<tr class="posts__row">';
-//         }
-//         echo '<td class="post">';
-//         echo '<img class="post__image" src="' . PATH_IMAGE . $postImage . '" width="322" height="322" alt="Пост" />';
-//         echo '</td>';
-//         if (($iter + 1) % $row == 0)
-//         {
-//             echo '</tr>';
-//         }
-//     }
-// }
-
-function printGridOfPosts($userPosts, $row) // json implementation
+function printGridOfPosts($userPosts, $connection)
 {
-    for ($iter = 0; $iter < count($userPosts); $iter++)
+    foreach ($userPosts as $post)
     {
-        $post = $userPosts[$iter];
-        $postImages = $post['images'];
-        $postImage = $postImages[0];
-
-        if ($iter % $row == 0)
-        {
-            echo '<tr class="posts__row">';
-        }
-        echo '<td class="post">';
-        echo '<img class="post__image" src="' . PATH_IMAGE . $postImage . '" width="322" height="322" alt="Пост" />';
-        echo '</td>';
-        if (($iter + 1) % $row == 0)
-        {
-            echo '</tr>';
-        }
+        $postImages = getImageFromDB($connection, $post['id']);
+        $postImage = $postImages[0]['image_path'];
+        echo '<img class="posts__image" src="' . PATH_IMAGE . $postImage . '" alt="Пост" />';
     }
 }
 
@@ -88,32 +73,42 @@ function printGridOfPosts($userPosts, $row) // json implementation
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../content/fonts/font.css" type="text/css" rel="stylesheet">
+    <link href="profile.css" rel="stylesheet">
     <title>Профиль</title>
 </head>
 
 <body>
-    <div class="tree">
-        <img class="tree_icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />
-        <img class="tree_icon" src="<?= PATH_ICON . 'user.svg' ?>" alt="Профиль" />
-        <img class="tree_icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
-    </div>
-    <?php
+    <div class="page">
+        <div class="sidebar">
+            <a href="../home" class="sidebar-shell">
+                <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />
+            </a>
+            <a href="../profile?id=<?= $userId ?>" class="sidebar-shell sidebar-active">
+                <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'user.svg' ?>" alt="Профиль" />
+            </a>
+            <a href="../create_post" class="sidebar-shell">
+                <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
+            </a>
+        </div>
+        <?php
 
-    $name = $foundUser['name'];
-    $profilePicture = PATH_IMAGE . $foundUser['profile_picture'];
-    $aboutMe = $foundUser['about_me'];
+        $name = $foundUser['name'];
+        $profilePicture = PATH_IMAGE . $foundUser['profile_picture'];
+        $aboutMe = $foundUser['about_me'];
 
-    $userPosts = [];
-    foreach ($posts as $post)
-    {
-        if ($userId == $post['user_id'])
+        $userPosts = [];
+        foreach ($posts as $post)
         {
-            array_push($userPosts, $post);
+            if ($userId == $post['user_id'])
+            {
+                array_push($userPosts, $post);
+            }
         }
-    }
-    require '../content/templates/profile.php';
+        require '../content/templates/profile.php';
 
-    ?>
+        ?>
+    </div>
 </body>
 
 </html>

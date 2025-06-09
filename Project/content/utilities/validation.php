@@ -2,7 +2,7 @@
 
 function validateId($id)
 {
-    if (is_numeric($id)) // дополнить
+    if (is_numeric($id))
     {
         if ($id > 0)
         {
@@ -10,6 +10,11 @@ function validateId($id)
         }
     }
     return false;
+}
+
+function validateImage($type, $size)
+{
+    return true;
 }
 
 ?>

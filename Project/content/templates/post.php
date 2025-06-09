@@ -1,16 +1,29 @@
 <div class="post">
     <div class="header">
-        <img class="header__picture" src="<?= $profilePicture ?>" width="32" height="32" alt="Профиль" />
-        <span class="header__name"><?= $profileName ?></span>
+        <a class="profile" href="../profile/?id=<?= $post['user_id'] ?>">
+            <img class="profile__picture" src="<?= $profilePicture ?>" alt="Профиль" />
+            <span class="profile__name"><?= $profileName ?></span>
+        </a>
         <?php if ($showIconEdit) { ?>
-            <img class="header__icon-edit" src="<?= PATH_ICON . 'edit.svg' ?>" alt="Изменить" />        
+            <img class="icon-edit" src="<?= PATH_ICON . 'edit.svg' ?>" alt="Изменить" />
         <?php } ?>
     </div>
-    <div class="body">
-        <div class="images">
-            <img class="images__image" src="<?= $postImage ?>" width="474" height="474" alt="Ошибка" />
-        </div>
-        <div class="body__text"><?= $postText ?></div>
-        <div class="body__timestamp"><?= caseTime($postTime) ?></div>
+    <div class="post-images">
+        <?php foreach ($postImages as $postImage) { ?>
+            <img class="post-image" src="<?= PATH_IMAGE . $postImage['image_path'] ?>"
+                alt="Фото поста" />
+        <?php } ?>
+        <?php if ($postImageCounter > 1) { ?>
+            <img class="icon-slider-left-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Влево">
+            <img class="icon-slider-right-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Вправо">
+            <div class="counter">1/<?= $postImageCounter ?></div>
+        <?php } ?>
     </div>
+    <div class="reaction-field">
+        <img class="reaction-field__heart" src="<?= PATH_ICON . 'heart.svg' ?>" alt="Сердечко">
+        <span class="reaction-field__counter"><?= $postLikes ?></span>
+    </div>
+    <div class="post__text"><?= $postText ?></div>
+    <button class="post__button-expand">ещё</button>
+    <div class="post__timestamp"><?= caseTime($postTime) ?></div>
 </div>

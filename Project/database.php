@@ -5,8 +5,6 @@ const DB_NAME = 'blog';
 const DB_USER = 'root';
 const DB_PASSWORD = '';
 
-$connection = connectToDatabase();
-
 function connectToDatabase(): PDO
 {
     $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;

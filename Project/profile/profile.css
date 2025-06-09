@@ -1,6 +1,126 @@
-@import url("https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap");
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
 
-.profile__image {
+a {
+    text-decoration: none;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+    border: 1px solid #2222220D;
+    gap: 16px;
+}
+
+.sidebar-shell {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 40px;
+    height: 40px;
+}
+
+.sidebar-shell__icon {
+    margin-top: 8px;
+    margin-left: 8px;
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar-active::after {
+    display: block;
+    content: '';
+    width: 4px;
+    height: 4px;
+    margin: auto;
+    background: #222222;
+    border-radius: 50%;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 73px;
+    width: 100%;
+    overflow: auto;
+}
+
+.profile__picture {
+    margin-top: 24px;
     width: 123px;
     height: 123px;
+    border-radius: 16px;
+    background-color: #FFFFFF;
+}
+
+.profile__name {
+    margin-top: 20px;
+    max-width: 361px;
+    text-align: center;
+    font: 500 32px "Golos UI", sans-serif;
+    line-height: 32px;
+    letter-spacing: -0.25px;
+    color: #222222;
+    vertical-align: middle;
+}
+
+.profile__description {
+    margin-top: 10px;
+    max-width: 361px;
+    text-align: center;
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    color: #222222;
+}
+
+.post-counter {
+    display: flex;
+    margin-top: 12px;
+    width: 101px;
+    height: 30px;
+    border-radius: 6px;
+    padding: 6px 10px 6px 10px;
+    gap: 6px;
+    background-color: #F2F3F5;
+    justify-content: center;
+    align-items: center;
+}
+
+.post-counter__image {
+    width: 16px;
+    height: 16px;
+}
+
+.post-counter__text {
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    color: #222222;
+    vertical-align: middle;
+    border: 1px;
+    border-color: #222222;
+}
+
+.posts {
+    display: grid;
+    gap: 2.48px;
+    margin-top: 42px;
+    grid-template-columns: repeat(3, 322.35px);
+}
+
+.posts__image {
+    width: 322.35px;
+    height: 322.35px; 
 }
