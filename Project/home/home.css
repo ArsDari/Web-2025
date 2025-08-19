@@ -9,10 +9,10 @@ a {
 }
 
 .page {
+    position: relative;
     display: flex;
+    width: 100%;
     flex-direction: row;
-    height: 100vh;
-    width: 100vw;
 }
 
 .sidebar {
@@ -21,6 +21,11 @@ a {
     padding-top: 40px;
     border: 1px solid #2222220D;
     gap: 16px;
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
 }
 
 .sidebar-shell {
@@ -50,14 +55,15 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 73px;
+    margin-top: 89px;
     width: 100%;
-    overflow: auto;
+    gap: 36px;
+    overflow-x: auto;
+    padding-bottom: 73px;
 }
 
 .post {
     width: 474px;
-    margin-bottom: 20px;
 }
 
 .header {
@@ -65,12 +71,11 @@ a {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 48px;
-    padding-top: 16px;
+    height: 32px;
     margin-bottom: 16px;
 }
 
-.profile {
+.header__profile {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -78,13 +83,13 @@ a {
     cursor: pointer;
 }
 
-.profile__picture {
+.header__profile-picture {
     width: 32px;
     height: 32px;
     border-radius: 6px;
 }
 
-.profile__name {
+.header__profile-name {
     font: 500 14px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
@@ -92,7 +97,7 @@ a {
     vertical-align: middle;
 }
 
-.icon-edit {
+.header__icon-edit {
     width: 24px;
     height: 24px;
     cursor: pointer;
@@ -101,6 +106,7 @@ a {
 .post-images {
     position: relative;
     margin-bottom: 16px;
+    z-index: 0;
 }
 
 .post-image {
@@ -135,7 +141,6 @@ a {
     backdrop-filter: blur(12px);
     border-radius: 20px;
     z-index: 1;
-    
     font: 400 15px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
@@ -184,10 +189,10 @@ a {
 }
 
 .less {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    display: -webkit-box; /* -webkit префикс бразуера, в моем случае Chrome. В данном случае это аналог флекса */
+    -webkit-box-orient: vertical; /* вертикальная ориентация */
+    -webkit-line-clamp: 2; /* ограничивает количество строк и обрезает их в случае переполнения */
+    line-clamp: 2; /* свойство для совместимости */
     overflow: hidden;
 }
 
@@ -206,13 +211,13 @@ a {
 }
 
 .modal-window {
-    z-index: 1;
+    z-index: 2;
     display: none;
     position: fixed;
     left: 0;
     top: 0;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background-color: #22222280;
 }
 
@@ -220,12 +225,13 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
-    gap: 16px;
+    position: relative;
 }
 
 .modal-window__shell {
-    margin-left: auto;
+    position: absolute;
+    top: -52px;
+    right: 0;
     height: 36px;
     width: 36px;
     padding: 6px 6px 6px 6px;
@@ -234,7 +240,6 @@ a {
 .modal-window__shell__icon {
     width: 24px;
     height: 24px;
-    backdrop-filter: blur(11.52px);
     color: #FFFFFF;
     cursor: pointer;
 }
@@ -244,12 +249,12 @@ a {
 }
 
 .modal-image {
-    max-width: 636px;
-    max-height: 636px;
+    max-width: 1366px;
+    max-height: 768px;
     display: none;
 }
 
-.modal-image.active {
+.image-active {
     display: block;
 }
 
@@ -269,8 +274,8 @@ a {
 }
 
 .modal-counter {
-    height: 24px;
-    padding-top: 8px;
+    position: absolute;
+    bottom: -42px;
     font: 500 15px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
@@ -278,8 +283,10 @@ a {
     color: #FFFFFF;
 }
 
-.active {
+.modal-active {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .scroll-block {

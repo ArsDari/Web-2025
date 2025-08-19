@@ -1,75 +1,57 @@
-document.addEventListener('DOMContentLoaded', () => {
-    function getTargetHeight(text) {
-        const computedText = window.getComputedStyle(text);
-        const targetHeight = parseFloat(computedText.fontSize) * 2;
-        return targetHeight;
-    }
-
+document.addEventListener('DOMContentLoaded', () => { // потому что несколько можно вставить несколько обработчиков, а сам DOMContentLoaded говорит о том, что браузер разобрал HTML
+    const MAX_HEIGHT_IN_PX = 37;
     const posts = document.querySelectorAll('.post');
+
     posts.forEach((post) => {
         const text = post.querySelector('.post__text');
         const button = post.querySelector('.post__button-expand');
-
-        if (text && button) {
-            if (text.scrollHeight > getTargetHeight(text)) {
-                button.classList.remove('hidden');
-                text.classList.add('less');
-            }
-            else {
-                button.classList.add('hidden');
-                text.classList.remove('less');
-            };
-            button.addEventListener('click', () => {
-                text.classList.toggle('less');
-                button.textContent = text.classList.contains('less') ? 'ещё' : 'свернуть';
-            });
-        };
+        if (text.scrollHeight > MAX_HEIGHT_IN_PX) {
+            button.classList.remove('hidden');
+            text.classList.add('less');
+        } else {
+            button.classList.add('hidden');
+            text.classList.remove('less');
+        }
+        button.addEventListener('click', () => {
+            text.classList.toggle('less');
+            button.textContent = text.classList.contains('less') ? 'ещё' : 'свернуть';
+        });
     });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const divOfImages = document.querySelectorAll('.post-images');
+    const containersOfImages = document.querySelectorAll('.post-images');
 
-    divOfImages.forEach((div) => {
+    containersOfImages.forEach((div) => {
         const images = div.querySelectorAll('.post-image');
         const sliderLeft = div.querySelector('.icon-slider-left-button');
         const sliderRight = div.querySelector('.icon-slider-right-button');
         const counter = div.querySelector('.counter');
-
-        const isVisible = (image) => {
-            return !image.classList.contains('hidden');
-        };
-
-        const updateCounter = () => {
-            if (!counter) {
-                return;
-            }
-            const visibleImageIndex = [...images].findIndex(isVisible); // [...images] превращает узел images в массив (images объект просто)
-            counter.textContent = `${visibleImageIndex + 1}/${images.length}`;
-        };
-
-        sliderLeft?.addEventListener('click', function () { // ?. - выполняет функцию, если элемент существует
-            const currentIndex = [...images].findIndex(isVisible);
-            images[currentIndex].classList.add('hidden');
-            const nextIndex = (currentIndex + 1) % images.length;
-            images[nextIndex].classList.remove('hidden');
-            updateCounter();
-        });
-
-        sliderRight?.addEventListener('click', function () {
-            const currentIndex = [...images].findIndex(isVisible);
-            images[currentIndex].classList.add('hidden');
-            const nextIndex = (currentIndex - 1 + images.length) % images.length;
-            images[nextIndex].classList.remove('hidden');
-            updateCounter();
-        });
+        
+        let currentImageIndex = 0;
 
         images.forEach((image, index) => {
-            image.classList.toggle('hidden', index != 0);
+            image.classList.toggle('hidden', index != 0); // force = true работает как add(), force = false работает как remove()
         });
 
-        updateCounter();
-    })
+        sliderLeft?.addEventListener('click', () => { // ?. - оператор опциональной последовательности
+            images[currentImageIndex].classList.add('hidden');
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            images[currentImageIndex].classList.remove('hidden');
+            updateCounter();
+        });
+
+        sliderRight?.addEventListener('click', () => {
+            images[currentImageIndex].classList.add('hidden');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.remove('hidden');
+            updateCounter();
+        });
+
+        function updateCounter() {
+            counter.textContent = `${currentImageIndex + 1}/${images.length}`;
+        }
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -83,75 +65,76 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentImageIndex = 0;
     let currentImages = [];
 
-    const handleEscapeKey = (event) => {
-        if (event.key == 'Escape') {
-            handleCloseWindow();
-        };
-    };
+    document.querySelectorAll('.post-image').forEach((img) => {
+        img.addEventListener('click', handleImageClick);
+    });
 
-    function handleImageClick(element) {
-        const postElement = element.target.closest('.post'); // ближайший родитель с классом post
-        const postImages = [...postElement.querySelectorAll('.post-image')];
-        const clickedIndex = postImages.indexOf(element.target);
-        openModalWindow(postElement, clickedIndex);
-    };
+    modalSliderLeft.addEventListener('click', () => {
+        currentImages[currentImageIndex].classList.remove('image-active');
+        currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+        currentImages[currentImageIndex].classList.add('image-active');
+        updateModalCounter();
+    });
 
-    function openModalWindow(postElement, index) {
-        currentImages = [...postElement.querySelectorAll('.post-image')].map(image => image.src);
-        currentImageIndex = index;
-        if (currentImages.length <= 1) {
+    modalSliderRight.addEventListener('click', () => {
+        currentImages[currentImageIndex].classList.remove('image-active');
+        currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+        currentImages[currentImageIndex].classList.add('image-active');
+        updateModalCounter();
+    });
+
+    function handleImageClick(clickedElement) {
+        const post = clickedElement.target.closest('.post');
+        const postImages = [...post.querySelectorAll('.post-image')]; // ... развёртывает содержимое и [] делает массив
+        currentImageIndex = postImages.indexOf(clickedElement.target);
+        postImages.forEach((img, index) => {
+            const newImg = document.createElement('img');
+            newImg.classList.add('modal-image');
+            if (index == currentImageIndex) {
+                newImg.classList.add('image-active');
+            }
+            newImg.src = img.src;
+            newImg.alt = `изображение ${index + 1}`;
+            modalSliderImages.appendChild(newImg);
+            currentImages.push(newImg);
+        });
+        if (currentImages.length == 1) {
             modalSliderLeft.classList.add('hidden');
             modalSliderRight.classList.add('hidden');
             modalCounter.classList.add('hidden');
-        };
-        updateModalSlider();
-        modalWindow.classList.add('active');
+        }
+        updateModalCounter();
+        openModalWindow();
+    }
+
+    function openModalWindow() {
+        modalWindow.classList.add('modal-active');
         document.body.classList.add('scroll-block');
         modalIconClose.addEventListener('click', handleCloseWindow);
         document.addEventListener('keydown', handleEscapeKey);
-    };
+    }
 
-    function updateModalSlider() {
-        modalSliderImages.querySelectorAll('.modal-image').forEach((element) => {
-            element.remove();
-        });
-        currentImages.forEach((sourceImage, index) => {
-            const image = document.createElement('img');
-            image.classList.add('modal-image');
-            if (index == currentImageIndex) {
-                image.classList.toggle('active');
-            }
-            image.src = sourceImage;
-            image.alt = `изображение ${index + 1}`;
-            modalSliderImages.appendChild(image);
-        });
+    function updateModalCounter() {
         modalCounter.textContent = `${currentImageIndex + 1} из ${currentImages.length}`;
     }
 
     function handleCloseWindow() {
-        modalWindow.classList.remove('active');
-        document.body.classList.remove('scroll-block');
         modalIconClose.removeEventListener('click', handleCloseWindow);
         document.removeEventListener('keydown', handleEscapeKey);
-        modalSliderImages.querySelectorAll('.modal-image').forEach((element) => {
-            element.remove();
+        modalWindow.classList.remove('modal-active');
+        document.body.classList.remove('scroll-block');
+        currentImages = [];
+        modalSliderImages.querySelectorAll('.modal-image').forEach((img) => {
+            img.remove();
         });
         modalSliderLeft.classList.remove('hidden');
         modalSliderRight.classList.remove('hidden');
         modalCounter.classList.remove('hidden');
     }
 
-    document.querySelectorAll('.post-image').forEach((image) => {
-        image.addEventListener('click', handleImageClick);
-    });
-
-    modalSliderLeft.addEventListener('click', () => {
-        currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-        updateModalSlider();
-    });
-
-    modalSliderRight.addEventListener('click', () => {
-        currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-        updateModalSlider();
-    });
+    function handleEscapeKey(event) {
+        if (event.key == 'Escape') {
+            handleCloseWindow();
+        }
+    }
 });

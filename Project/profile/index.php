@@ -79,7 +79,7 @@ function printGridOfPosts($userPosts, $connection)
 </head>
 
 <body>
-    <div class="page">
+    <div class="page"> 
         <div class="sidebar">
             <a href="../home" class="sidebar-shell">
                 <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />

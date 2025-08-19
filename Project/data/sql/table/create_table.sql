@@ -7,7 +7,7 @@ CREATE TABLE post (
     user_id INT UNSIGNED NOT NULL,
     created_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     text TEXT,
-    likes INT UNSIGNED DEFAULT NULL,
+    likes INT UNSIGNED DEFAULT 0,
     PRIMARY KEY (id)
 );
 

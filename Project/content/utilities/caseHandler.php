@@ -36,7 +36,7 @@ function caseNumber($number, $titles)
 
 function caseTime($timestamp)
 {
-    $deltaTime = time() - $timestamp;
+    $deltaTime = time() - $timestamp + 10800; // сбросить часовые пояса
     if ($deltaTime < 0)
     {
         return 'Ошибка';

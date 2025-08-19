@@ -1,11 +1,11 @@
 <div class="post">
     <div class="header">
-        <a class="profile" href="../profile/?id=<?= $post['user_id'] ?>">
-            <img class="profile__picture" src="<?= $profilePicture ?>" alt="Профиль" />
-            <span class="profile__name"><?= $profileName ?></span>
+        <a class="header__profile" href="../profile/?id=<?= $post['user_id'] ?>">
+            <img class="header__profile-picture" src="<?= $profilePicture ?>" alt="Профиль" />
+            <span class="header__profile-name"><?= $profileName ?></span>
         </a>
         <?php if ($showIconEdit) { ?>
-            <img class="icon-edit" src="<?= PATH_ICON . 'edit.svg' ?>" alt="Изменить" />
+            <img class="header__icon-edit" src="<?= PATH_ICON . 'edit.svg' ?>" alt="Изменить" />
         <?php } ?>
     </div>
     <div class="post-images">

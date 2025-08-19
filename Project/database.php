@@ -11,7 +11,7 @@ function connectToDatabase(): PDO
     return new PDO($dsn, DB_USER, DB_PASSWORD);
 }
 
-function savePostToDatabase(PDO $connection, $post, $images)
+function savePostToDatabase(PDO $connection, $userId, $postText, $images)
 {
     $query = <<<SQL
         INSERT INTO
@@ -26,8 +26,8 @@ function savePostToDatabase(PDO $connection, $post, $images)
         SQL;
     $statement = $connection->prepare($query);
     $statement->execute([
-        ':user_id' => $post['user_id'],
-        ':text' => $post['text']
+        ':user_id' => $userId,
+        ':text' => $postText
     ]);
     $id = $connection->lastInsertId();
     foreach ($images as $image_path)

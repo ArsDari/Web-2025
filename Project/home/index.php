@@ -62,7 +62,7 @@ require_once '../content/utilities/caseHandler.php';
         </div>
         <div class="feed">
             <?php
-
+            
             foreach ($posts as $post)
             {
                 if ($userId && $userId != $post['user_id'])
@@ -81,8 +81,7 @@ require_once '../content/utilities/caseHandler.php';
                 $postText = $post['text'];
                 $postTime = strtotime($post['created_timestamp']);
                 $postLikes = $post['likes'];
-                $deltaTime = time() - $postTime;
-
+                $deltaTime = time() - $postTime + 10800; // сбросить часовые пояса
                 if ($deltaTime >= 0)
                 {
                     require '../content/templates/post.php';
@@ -91,21 +90,19 @@ require_once '../content/utilities/caseHandler.php';
 
             ?>
         </div>
-    </div>
-
-    <div class="modal-window">
-        <div class="modal-window__content">
-            <div class="modal-window__shell">
-                <img class="modal-window__shell__icon" src="<?= PATH_ICON . 'close.svg' ?>" alt="Домой" />
+        <div class="modal-window">
+            <div class="modal-window__content">
+                <div class="modal-window__shell">
+                    <img class="modal-window__shell__icon" src="<?= PATH_ICON . 'close.svg' ?>" alt="Домой" />
+                </div>
+                <div class="modal-images">
+                    <img class="modal-icon-slider-left-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Влево">
+                    <img class="modal-icon-slider-right-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Вправо">
+                </div>
+                <div class="modal-counter"></div>
             </div>
-            <div class="modal-images">
-                <img class="modal-icon-slider-left-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Влево">
-                <img class="modal-icon-slider-right-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Вправо">
-            </div>
-            <div class="modal-counter"></div>
         </div>
     </div>
-
 </body>
 
 </html>
