@@ -1,0 +1,267 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    height: 100vh;
+}
+
+.page {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -1px;
+    height: 100vh;
+    border: 1px solid #2222220D;
+}
+
+.sidebar__navigation {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    gap: 16px;
+}
+
+.sidebar__navigation__shell {
+    display: block;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 8px 8px 8px 8px;
+    position: relative;
+}
+
+.sidebar__navigation__shell__icon {
+    display: block;
+}
+
+.sidebar__navigation-active::after {
+    display: block;
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: #222222;
+    border-radius: 50%;
+    position: absolute;
+    left: 18px;
+    bottom: 0;
+}
+
+.creating-post {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-top: 82px;
+    padding-bottom: 32px;
+}
+
+.images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #F2F3F5;
+    width: 474px;
+    height: 474px;
+}
+
+.image {
+    max-width: 474px;
+    max-height: 474px;
+    display: block;
+    object-fit: contain;
+}
+
+.info-message {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #E5FFD9;
+    border-radius: 10px;
+    padding: 12px 12px 12px 12px;
+    user-select: none;
+}
+
+.info-message__icon {
+    display: block;
+}
+
+.info-message__text {
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    text-align: center;
+    vertical-align: middle;
+    color: #004905;
+}
+
+.icon-remove {
+    position: absolute;
+    left: 16px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.icon-slider {
+    position: absolute;
+    top: 221px;
+    cursor: pointer;
+}
+
+.left-button {
+    left: 16px;
+    transform: scaleX(-1);
+}
+
+.right-button {
+    right: 16px;
+}
+
+.counter {
+    position: absolute;
+    height: 24px;
+    top: 20px;
+    right: 16px;
+    padding: 3px 10px 3px 10px;
+    background-color: #22222280;
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    z-index: 1;
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    vertical-align: middle;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    user-select: none;
+}
+
+.upload__image {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.upload__button {
+    background-color: #222222;
+    border-radius: 10px;
+    padding: 14px 16px 14px 16px;
+    border: 2px solid #222222;
+    outline: none;
+    cursor: pointer;
+}
+
+.upload__button:hover {
+    border-color: #373737;
+    background-color: #373737;
+}
+
+.upload__button:active {
+    border-color: #3F8AE0;
+    background-color: #222222;
+}
+
+.upload__button:disabled {
+    border-color: #B4B4B4;
+    background-color: #B4B4B4;
+    cursor: not-allowed;
+}
+
+.upload__button__text {
+    display: block;
+    font: 500 16px "Golos UI", sans-serif;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #FFFFFF;
+}
+
+.upload-new {
+    margin-top: 16px;
+    user-select: none;
+}
+
+.upload-new__button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    width: fit-content;
+    border: 2px solid #3F8AE000;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.upload-new__button:active {
+    border-color: #3F8AE0;
+}
+
+.upload-new__button__icon {
+    width: 16px;
+    height: 16px;
+}
+
+.upload-new__button__text {
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    color: #3F8AE0;
+}
+
+.new-post {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 32px;
+}
+
+.new-post__text {
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    color: #808080;
+    border: 0;
+    outline: none;
+    flex-grow: 1;
+    width: 100%;
+    resize: none;
+}
+
+.create-form__submit-button {
+    font: 400 16px "Golos UI", sans-serif;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #FFFFFF;
+}
+
+.disabled {
+    border-color: #B4B4B4;
+    background-color: #B4B4B4;
+}
+
+.hidden {
+    display: none;
+}

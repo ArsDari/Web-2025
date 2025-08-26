@@ -1,103 +1,102 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const errorWindow = document.querySelector('.login-form__error');
-    const email = document.querySelector('.login-form__input-field');
-    const emailDescriptionText = document.querySelector('.login-form__input-extra-info');
-    const password = document.querySelector('.login-form__password-field');
-    const sendButton = document.querySelector('.login-form__button-submit');
-
-    function raiseErrorMessage(message, icon) {
-        const errorText = errorWindow.querySelector('.login-form__error-message');
-        errorText.innerText = message;
-        const errorIcon = errorWindow.querySelector('.login-form__error-icon');
-        errorIcon.src = `../content/media/icons/${icon}`;
-        errorWindow.classList.remove('hidden');
-    }
-
-    function validateEmail(emailData) {
-        const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/; 
-        // /текст/ короткий синтаксис регулярного выражения, ^ - якорь начала строки, $ - якорь конца строки
-        // \s - класс пробельных символов, + - квантификатор одного или более символов, [...] - искать любой символ из заданного набора
-        // [^...] - исключающий набор, [^\s@.] - исключить пробельные символы, @ . - исключенные символы
-        // \. - символ точки, + - смотреть до конца
-        if (!emailRegex.test(emailData)) {
-            setErrorClass(email);
-            raiseErrorMessage('Неверный формат электропочты', 'unsure.png');
-            return false;
-        }
-        return true;
-    }
-
-    function setErrorClass(div) {
-        div.classList.add('input-error');
-        div.addEventListener('click', () => removeErrorClass(div), {
-            once: true,
-        });
-    }
-
-    function removeErrorClass(div) {
-        div.classList.remove('input-error');
-        if (div.classList == 'login-form__input-field') {
-            emailDescriptionText.classList.remove('login-form__error-description');
-        }
-        const errorFields = document.querySelectorAll('.input-error');
-        if (errorFields.length == 0) {
-            errorWindow.classList.add('hidden');
-        }
-    }
-
-    sendButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        const form = event.target.closest('form');
-        const formData = new FormData(form);
-    
-        const emailData = formData.get('email');
-        const passwordData = formData.get('password');
-        const isEmailValid = validateEmail(emailData);
-        let isValid = true;
-
-        if (!isEmailValid) {
-            setErrorClass(email);
-            emailDescriptionText.classList.add('login-form__error-description');
-            raiseErrorMessage('Поля обязательные', 'nerd.png');
-            isValid = false;
-        }
-        
-        if (passwordData.length == 0) {
-            setErrorClass(password);
-            raiseErrorMessage('Поля обязательные', 'nerd.png');
-            isValid = false;
-        }
-
-        if (isValid) {
-            if (isEmailValid) {
-                setErrorClass(email);
-                emailDescriptionText.classList.add('login-form__error-description');
-                setErrorClass(password);
-                raiseErrorMessage('Не те логин или пароль...', 'unsure.png');
-            } else {
-                setErrorClass(email);
-                emailDescriptionText.classList.add('login-form__error-description');
-                raiseErrorMessage('Неверный формат электропочты', 'unsure.png');
-            }
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const password = document.querySelector('.login-form__password');
-    const passwordField = password.querySelector('.login-form__password-field');
-    const eye = password.querySelector('.login-form__button-eye');
-    
-    eye.addEventListener('click', () => {
-        eye.classList.toggle('eye-off');
-        const isClose = eye.classList.contains('eye-off');
-        if (isClose) {
-            passwordField.type = 'password';
-            eye.src = '../content/media/icons/icon-eye-off.svg';
+const enableEye = () => {
+    const passwordField = document.getElementById("password");
+    const eye = document.getElementById("eye");
+    const eyeClassList = eye.classList;
+    eye.addEventListener("click", () => {
+        if (eyeClassList.contains("eye-on")) {
+            eyeClassList.remove("eye-on");
+            passwordField.type = "password";
+            eye.src = "../content/media/icons/icon-eye-off.svg";
         }
         else {
-            passwordField.type = 'text';
-            eye.src = '../content/media/icons/icon-eye-on.svg';
-        };
+            eyeClassList.add("eye-on");
+            passwordField.type = "text";
+            eye.src = "../content/media/icons/icon-eye-on.svg";
+        }
     });
-});
+};
+
+const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
+// /текст/ короткий синтаксис регулярного выражения, ^ - якорь начала строки, $ - якорь конца строки
+// \s - класс пробельных символов, + - квантификатор одного или более символов, [...] - искать любой символ из заданного набора
+// [^...] - исключающий набор, [^\s@.] - исключить пробельные символы, @ . - исключенные символы
+// \. - символ точки, + - смотреть до конца
+
+const enableLogin = () => {
+    const errorWindow = document.getElementById("error-window");
+    const errorIcon = document.getElementById("error-icon");
+    const errorText = document.getElementById("error-text");
+    const email = document.getElementById("email");
+    const emailExtraInfo = document.getElementById("email-extra-info");
+    const password = document.getElementById("password");
+    const sendButton = document.getElementById("send-button");
+    const form = document.getElementById("login-form");
+
+    const raiseErrorMessage = (text, icon) => {
+        errorText.innerText = text;
+        errorIcon.src = `../content/media/icons/${icon}`;
+        errorWindow.classList.remove("hidden");
+    };
+
+    const setEmailError = () => {
+        email.classList.add("input-error");
+        emailExtraInfo.classList.add("login-form__error-description");
+        email.addEventListener("mousedown", removeEmailError, { once: true });
+    };
+
+    const removeEmailError = () => {
+        email.classList.remove("input-error");
+        emailExtraInfo.classList.remove("login-form__error-description");
+        removeErrorWindow();
+    };
+
+    const setPasswordError = () => {
+        password.classList.add("input-error");
+        password.addEventListener("mousedown", removePasswordError, { once: true });
+    };
+
+    const removePasswordError = () => {
+        password.classList.remove("input-error");
+        removeErrorWindow();
+    };
+
+    const removeErrorWindow = () => {
+        const errorFields = document.querySelectorAll(".input-error");
+        if (errorFields.length == 0) {
+            errorWindow.classList.add("hidden");
+        }
+    };
+
+    const handleSend = event => {
+        event.preventDefault();
+        removeEmailError();
+        removePasswordError();
+        const formData = new FormData(form);
+        const emailData = formData.get("email");
+        const passwordData = formData.get("password");
+        const isEmailValid = emailRegex.test(emailData);
+        if (emailData.length == 0 || passwordData.length == 0) {
+            if (emailData.length == 0) {
+                setEmailError();
+            }
+            if (passwordData.length == 0) {
+                setPasswordError();
+            }
+            raiseErrorMessage("Поля обязательные", "nerd.png");
+            return;
+        }
+        if (isEmailValid) {
+            setEmailError();
+            setPasswordError();
+            raiseErrorMessage("Не те логин или пароль...", "unsure.png");
+        } else {
+            setEmailError();
+            raiseErrorMessage("Неверный формат электропочты", "unsure.png");
+        }
+    };
+
+    sendButton.addEventListener("click", handleSend);
+};
+
+document.addEventListener("DOMContentLoaded", enableEye);
+document.addEventListener("DOMContentLoaded", enableLogin);

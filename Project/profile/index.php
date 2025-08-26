@@ -81,15 +81,17 @@ function printGridOfPosts($userPosts, $connection)
 <body>
     <div class="page"> 
         <div class="sidebar">
-            <a href="../home" class="sidebar-shell">
-                <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />
-            </a>
-            <a href="../profile?id=<?= $userId ?>" class="sidebar-shell sidebar-active">
-                <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'user.svg' ?>" alt="Профиль" />
-            </a>
-            <a href="../create_post" class="sidebar-shell">
-                <img class="sidebar-shell__icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
-            </a>
+            <div class="sidebar__navigation">
+                <a href="../home" class="sidebar__navigation__shell">
+                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />
+                </a>
+                <a href="../profile?id=<?= $sessionUserId ?>" class="sidebar__navigation__shell sidebar__navigation-active">
+                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'user.svg' ?>" alt="Профиль" />
+                </a>
+                <a href="../create_post" class="sidebar__navigation__shell">
+                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
+                </a>
+            </div>
         </div>
         <?php
 

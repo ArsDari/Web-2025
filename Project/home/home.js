@@ -1,140 +1,128 @@
-document.addEventListener('DOMContentLoaded', () => { // потому что несколько можно вставить несколько обработчиков, а сам DOMContentLoaded говорит о том, что браузер разобрал HTML
-    const MAX_HEIGHT_IN_PX = 37;
-    const posts = document.querySelectorAll('.post');
+const setShow = (div, force) => div.classList.toggle("hidden", !force);
 
-    posts.forEach((post) => {
-        const text = post.querySelector('.post__text');
-        const button = post.querySelector('.post__button-expand');
-        if (text.scrollHeight > MAX_HEIGHT_IN_PX) {
-            button.classList.remove('hidden');
-            text.classList.add('less');
-        } else {
-            button.classList.add('hidden');
-            text.classList.remove('less');
-        }
-        button.addEventListener('click', () => {
-            text.classList.toggle('less');
-            button.textContent = text.classList.contains('less') ? 'ещё' : 'свернуть';
+const addTextFolding = post => {
+    const text = post.querySelector(".post__text");
+    const lineHeight = parseInt(window.getComputedStyle(text).lineHeight);
+    const lines = 2;
+    if (text.scrollHeight > lineHeight * lines) {
+        const foldButton = document.createElement("div");
+        foldButton.classList.add("post__button-expand");
+        foldButton.textContent = "ещё";
+        foldButton.addEventListener("click", () => {
+            text.classList.toggle("less");
+            foldButton.textContent = text.classList.contains("less") ? "ещё" : "свернуть";
         });
-    });
-});
+        text.classList.add("less");
+        text.after(foldButton);
+    }
+};
 
-document.addEventListener('DOMContentLoaded', () => {
-    const containersOfImages = document.querySelectorAll('.post-images');
-
-    containersOfImages.forEach((div) => {
-        const images = div.querySelectorAll('.post-image');
-        const sliderLeft = div.querySelector('.icon-slider-left-button');
-        const sliderRight = div.querySelector('.icon-slider-right-button');
-        const counter = div.querySelector('.counter');
-        
+const addSlider = postImages => {
+    const images = postImages.querySelectorAll('.post-image');
+    if (images.length > 1) {
         let currentImageIndex = 0;
-
-        images.forEach((image, index) => {
-            image.classList.toggle('hidden', index != 0); // force = true работает как add(), force = false работает как remove()
-        });
-
-        sliderLeft?.addEventListener('click', () => { // ?. - оператор опциональной последовательности
-            images[currentImageIndex].classList.add('hidden');
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            images[currentImageIndex].classList.remove('hidden');
+        images.forEach((image, index) => setShow(image, index == 0));
+        const sliderLeft = postImages.querySelector('.icon-slider.left-button');
+        const sliderRight = postImages.querySelector('.icon-slider.right-button');
+        const counterField = postImages.querySelector('.counter-field');
+        const updateCounter = () => counterField.textContent = `${currentImageIndex + 1}/${images.length}`;
+        const moveImage = (direction, step) => {
+            setShow(images[currentImageIndex], false);
+            if (direction == "left") {
+                currentImageIndex = (currentImageIndex - step + images.length) % images.length;
+            } else {
+                currentImageIndex = (currentImageIndex + step) % images.length;
+            }
+            setShow(images[currentImageIndex], true);
             updateCounter();
-        });
+        };
+        sliderLeft.addEventListener("click", () => moveImage("left", 1));
+        sliderRight.addEventListener("click", () => moveImage("right", 1));
+    }
+};
 
-        sliderRight?.addEventListener('click', () => {
-            images[currentImageIndex].classList.add('hidden');
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            images[currentImageIndex].classList.remove('hidden');
-            updateCounter();
-        });
-
-        function updateCounter() {
-            counter.textContent = `${currentImageIndex + 1}/${images.length}`;
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const modalWindow = document.querySelector('.modal-window');
-    const modalIconClose = modalWindow.querySelector('.modal-window__shell__icon');
-    const modalSliderImages = modalWindow.querySelector('.modal-images');
-    const modalSliderLeft = modalWindow.querySelector('.modal-icon-slider-left-button');
-    const modalSliderRight = modalWindow.querySelector('.modal-icon-slider-right-button');
-    const modalCounter = modalWindow.querySelector('.modal-counter');
+const enableModalWindow = () => {
+    const modalWindow = document.querySelector('.modal');
+    const modalIconClose = document.querySelector('.modal__content__icon-close');
+    const modalImages = document.querySelector('.modal__content__images');
+    const sliderLeft = modalWindow.querySelector('.icon-slider.left-button');
+    const sliderRight = modalWindow.querySelector('.icon-slider.right-button');
+    const counter = document.querySelector('.modal__content__counter');
 
     let currentImageIndex = 0;
     let currentImages = [];
 
-    document.querySelectorAll('.post-image').forEach((img) => {
-        img.addEventListener('click', handleImageClick);
-    });
-
-    modalSliderLeft.addEventListener('click', () => {
-        currentImages[currentImageIndex].classList.remove('image-active');
-        currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-        currentImages[currentImageIndex].classList.add('image-active');
-        updateModalCounter();
-    });
-
-    modalSliderRight.addEventListener('click', () => {
-        currentImages[currentImageIndex].classList.remove('image-active');
-        currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-        currentImages[currentImageIndex].classList.add('image-active');
-        updateModalCounter();
-    });
-
-    function handleImageClick(clickedElement) {
-        const post = clickedElement.target.closest('.post');
-        const postImages = [...post.querySelectorAll('.post-image')]; // ... развёртывает содержимое и [] делает массив
-        currentImageIndex = postImages.indexOf(clickedElement.target);
-        postImages.forEach((img, index) => {
-            const newImg = document.createElement('img');
-            newImg.classList.add('modal-image');
-            if (index == currentImageIndex) {
-                newImg.classList.add('image-active');
-            }
-            newImg.src = img.src;
-            newImg.alt = `изображение ${index + 1}`;
-            modalSliderImages.appendChild(newImg);
-            currentImages.push(newImg);
-        });
-        if (currentImages.length == 1) {
-            modalSliderLeft.classList.add('hidden');
-            modalSliderRight.classList.add('hidden');
-            modalCounter.classList.add('hidden');
+    const updateCounter = () => counter.textContent = `${currentImageIndex + 1} из ${currentImages.length}`;
+    const moveImage = (direction, step) => {
+        setShow(currentImages[currentImageIndex], false);
+        if (direction == "left") {
+            currentImageIndex = (currentImageIndex - step + currentImages.length) % currentImages.length;
+        } else {
+            currentImageIndex = (currentImageIndex + step) % currentImages.length;
         }
-        updateModalCounter();
-        openModalWindow();
+        setShow(currentImages[currentImageIndex], true);
+        updateCounter();
+    };
+
+    sliderLeft.addEventListener("click", () => moveImage("left", 1));
+    sliderRight.addEventListener("click", () => moveImage("right", 1));
+
+    const copyNodeImg = (img, index) => {
+        const copyImg = document.createElement("img");
+        copyImg.classList.add("modal__content__image");
+        setShow(copyImg, index == currentImageIndex);
+        copyImg.src = img.src;
+        copyImg.alt = `изображение ${index + 1}`;
+        modalImages.appendChild(copyImg);
+        currentImages.push(copyImg);
     }
 
-    function openModalWindow() {
-        modalWindow.classList.add('modal-active');
+    const handleClickOnImage = event => {
+        const post = event.target.closest('.post');
+        const postImages = [...post.querySelectorAll('.post-image')];
+        currentImageIndex = postImages.indexOf(event.target);
+        postImages.forEach((img, index) => copyNodeImg(img, index));
+        if (currentImages.length == 1) {
+            setShow(sliderLeft, false);
+            setShow(sliderRight, false);
+            setShow(counter, false);
+        }
+        updateCounter();
+        openWindow();
+    }
+
+    const openWindow = () => {
         document.body.classList.add('scroll-block');
-        modalIconClose.addEventListener('click', handleCloseWindow);
-        document.addEventListener('keydown', handleEscapeKey);
+        setShow(modalWindow, true);
+        modalIconClose.addEventListener("click", handleCloseWindow);
+        document.addEventListener("keydown", handleKeyboard);
     }
 
-    function updateModalCounter() {
-        modalCounter.textContent = `${currentImageIndex + 1} из ${currentImages.length}`;
-    }
-
-    function handleCloseWindow() {
-        modalIconClose.removeEventListener('click', handleCloseWindow);
-        document.removeEventListener('keydown', handleEscapeKey);
-        modalWindow.classList.remove('modal-active');
+    const handleCloseWindow = () => {
+        modalIconClose.removeEventListener("click", handleCloseWindow);
+        document.removeEventListener("keydown", handleKeyboard);
         document.body.classList.remove('scroll-block');
+        modalImages.querySelectorAll('.modal__content__image').forEach(img => img.remove());
         currentImages = [];
-        modalSliderImages.querySelectorAll('.modal-image').forEach((img) => {
-            img.remove();
-        });
-        modalSliderLeft.classList.remove('hidden');
-        modalSliderRight.classList.remove('hidden');
-        modalCounter.classList.remove('hidden');
+        setShow(modalWindow, false);
+        setShow(sliderLeft, true);
+        setShow(sliderRight, true);
+        setShow(counter, true);
     }
 
-    function handleEscapeKey(event) {
+    const handleKeyboard = event => {
         if (event.key == 'Escape') {
             handleCloseWindow();
         }
     }
-});
+
+    document.querySelectorAll('.post-image').forEach(post => post.addEventListener("click", handleClickOnImage));
+}
+
+const enableFeatures = () => {
+    document.querySelectorAll(".post").forEach(addTextFolding);
+    document.querySelectorAll('.post-images').forEach(addSlider);
+    enableModalWindow();
+}
+
+document.addEventListener('DOMContentLoaded', enableFeatures);

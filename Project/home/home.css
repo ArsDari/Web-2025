@@ -9,60 +9,57 @@ a {
 }
 
 .page {
-    position: relative;
     display: flex;
     width: 100%;
-    flex-direction: row;
+    height: 100%;
+    justify-content: center;
 }
 
 .sidebar {
-    display: flex;
-    flex-direction: column;
-    padding-top: 40px;
-    border: 1px solid #2222220D;
-    gap: 16px;
-    z-index: 2;
-    position: sticky;
+    position: fixed;
     top: 0;
-    left: 0;
+    left: -1px;
     height: 100vh;
+    border: 1px solid #2222220D;
 }
 
-.sidebar-shell {
+.sidebar__navigation {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    gap: 16px;
+}
+
+.sidebar__navigation__shell {
+    display: block;
     margin-left: 16px;
     margin-right: 16px;
     padding: 8px 8px 8px 8px;
-    width: 40px;
-    height: 40px;
+    position: relative;
 }
 
-.sidebar-shell__icon {
-    width: 24px;
-    height: 24px;
+.sidebar__navigation__shell__icon {
+    display: block;
 }
 
-.sidebar-active::after {
+.sidebar__navigation-active::after {
     display: block;
     content: '';
     width: 4px;
     height: 4px;
-    margin: auto;
     background: #222222;
     border-radius: 50%;
+    position: absolute;
+    left: 18px;
+    bottom: 0;
 }
 
 .feed {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 89px;
-    width: 100%;
-    gap: 36px;
-    overflow-x: auto;
-    padding-bottom: 73px;
-}
-
-.post {
+    margin-top: 73px;
+    margin-bottom: 16px;
     width: 474px;
 }
 
@@ -72,6 +69,7 @@ a {
     align-items: center;
     justify-content: space-between;
     height: 32px;
+    margin-top: 16px;
     margin-bottom: 16px;
 }
 
@@ -83,13 +81,13 @@ a {
     cursor: pointer;
 }
 
-.header__profile-picture {
+.header__profile__picture {
     width: 32px;
     height: 32px;
     border-radius: 6px;
 }
 
-.header__profile-name {
+.header__profile__name {
     font: 500 14px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
@@ -98,14 +96,11 @@ a {
 }
 
 .header__icon-edit {
-    width: 24px;
-    height: 24px;
     cursor: pointer;
 }
 
 .post-images {
     position: relative;
-    margin-bottom: 16px;
     z-index: 0;
 }
 
@@ -116,24 +111,23 @@ a {
     cursor: pointer;
 }
 
-.icon-slider-left-button {
+.icon-slider {
     position: absolute;
-    top: 221px;
-    left: 16px;
+    top: 50%;
     cursor: pointer;
+}
+
+.left-button {
+    left: 16px;
     transform: scaleX(-1);
 }
 
-.icon-slider-right-button {
-    position: absolute;
-    top: 221px;
+.right-button {
     right: 16px;
-    cursor: pointer;
 }
 
-.counter {
+.counter-field {
     position: absolute;
-    height: 24px;
     top: 20px;
     right: 16px;
     padding: 3px 10px 3px 10px;
@@ -141,27 +135,40 @@ a {
     backdrop-filter: blur(12px);
     border-radius: 20px;
     z-index: 1;
+}
+
+.counter-text {
     font: 400 15px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
     vertical-align: middle;
     text-align: center;
     color: #FFFFFF;
+    user-select: none;
 }
 
 .reaction-field {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 3px;
+    width: fit-content;
+    height: 30px;
     background-color: #2222220D;
+    border: 1px solid #00000000;
     border-radius: 8px;
     padding: 6px 12px 6px 12px;
+    margin-top: 16px;
     margin-bottom: 16px;
+    user-select: none;
+    cursor: pointer;
 }
 
-.reaction-field__heart {
-    width: 16px;
-    height: 16px;
+.reaction-field:hover {
+    background: #EF53530D;
+}
+
+.reaction-field:active {
+    border: 1px solid #FF000030
 }
 
 .reaction-field__counter {
@@ -186,13 +193,14 @@ a {
     color: #22222280;
     vertical-align: middle;
     margin-top: 8px;
+    margin-bottom: 20px;
 }
 
 .less {
     display: -webkit-box; /* -webkit префикс бразуера, в моем случае Chrome. В данном случае это аналог флекса */
     -webkit-box-orient: vertical; /* вертикальная ориентация */
     -webkit-line-clamp: 2; /* ограничивает количество строк и обрезает их в случае переполнения */
-    line-clamp: 2; /* свойство для совместимости */
+    line-clamp: 2;
     overflow: hidden;
 }
 
@@ -204,89 +212,56 @@ a {
     border: none;
     background: none;
     cursor: pointer;
+    width: fit-content;
+    user-select: none;
 }
 
-.hidden {
-    display: none;
-}
-
-.modal-window {
-    z-index: 2;
-    display: none;
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     left: 0;
     top: 0;
     height: 100%;
     width: 100%;
     background-color: #22222280;
+    z-index: 2;
 }
 
-.modal-window__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.modal__content {
     position: relative;
 }
 
-.modal-window__shell {
+.modal__content__icon-close {
     position: absolute;
     top: -52px;
     right: 0;
-    height: 36px;
-    width: 36px;
     padding: 6px 6px 6px 6px;
-}
-
-.modal-window__shell__icon {
-    width: 24px;
-    height: 24px;
-    color: #FFFFFF;
     cursor: pointer;
 }
 
-.modal-images {
+.modal__content__images {
     position: relative;
 }
 
-.modal-image {
-    max-width: 1366px;
-    max-height: 768px;
-    display: none;
-}
-
-.image-active {
+.modal__content__image {
     display: block;
+    max-width: 848px;
+    max-height: 636px;
+    object-fit: contain;
 }
 
-.modal-icon-slider-left-button {
-    position: absolute;
-    cursor: pointer;
-    top: 50%;
-    left: 16px;
-    transform: scaleX(-1);
-}
-
-.modal-icon-slider-right-button {
-    position: absolute;
-    cursor: pointer;
-    top: 50%;
-    right: 16px;
-}
-
-.modal-counter {
+.modal__content__counter {
     position: absolute;
     bottom: -42px;
-    font: 500 15px "Golos UI", sans-serif;
-    line-height: 18px;
-    letter-spacing: -0.15px;
-    text-align: center;
-    color: #FFFFFF;
+    width: 100%;
+    font-weight: 500;
 }
 
-.modal-active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.hidden {
+    display: none;
 }
 
 .scroll-block {
