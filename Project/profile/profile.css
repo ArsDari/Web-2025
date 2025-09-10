@@ -27,8 +27,17 @@ a {
 .sidebar__navigation {
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
     gap: 16px;
+}
+
+.navigation-upper {
+    position: absolute;
+    top: 40px;
+}
+
+.navigation-lower {
+    position: absolute;
+    bottom: 40px;
 }
 
 .sidebar__navigation__shell {

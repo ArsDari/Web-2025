@@ -14,18 +14,18 @@ const MINUTE_CASES = ['минуту', 'минуты', 'минут'];
 const HOUR_CASES = ['час', 'часа', 'часов'];
 const DAY_CASES = ['день', 'дня', 'дней'];
 const MONTH_LIST = [
-	1  => 'января',
-	2  => 'февраля',
-	3  => 'марта',
-	4  => 'апреля',
-	5  => 'мая', 
-	6  => 'июня',
-	7  => 'июля',
-	8  => 'августа',
-	9  => 'сентября',
-	10 => 'октября',
-	11 => 'ноября',
-	12 => 'декабря'
+    1 => 'января',
+    2 => 'февраля',
+    3 => 'марта',
+    4 => 'апреля',
+    5 => 'мая',
+    6 => 'июня',
+    7 => 'июля',
+    8 => 'августа',
+    9 => 'сентября',
+    10 => 'октября',
+    11 => 'ноября',
+    12 => 'декабря'
 ];
 
 function caseNumber($number, $titles)
@@ -36,38 +36,23 @@ function caseNumber($number, $titles)
 
 function caseTime($timestamp)
 {
-    $deltaTime = time() - $timestamp + 10800; // сбросить часовые пояса
-    if ($deltaTime < 0)
-    {
+    $deltaTime = time() - $timestamp;
+    if ($deltaTime < 0) {
         return 'Ошибка';
-    }
-    elseif ($deltaTime == 0)
-    {
+    } elseif ($deltaTime == 0) {
         return 'Только что';
-    }
-    elseif ($deltaTime <= SECONDS_IN_MINUTE)
-    {
+    } elseif ($deltaTime <= SECONDS_IN_MINUTE) {
         return $deltaTime . ' ' . caseNumber($deltaTime, SECOND_CASES) . ' назад';
-    }
-    elseif (SECONDS_IN_MINUTE < $deltaTime && $deltaTime <= SECONDS_IN_HOUR)
-    {
+    } elseif (SECONDS_IN_MINUTE < $deltaTime && $deltaTime <= SECONDS_IN_HOUR) {
         $deltaTime = intdiv($deltaTime, SECONDS_IN_MINUTE);
         return $deltaTime . ' ' . caseNumber($deltaTime, MINUTE_CASES) . ' назад';
-    }
-    elseif (SECONDS_IN_HOUR < $deltaTime && $deltaTime <= SECONDS_IN_DAY)
-    {
+    } elseif (SECONDS_IN_HOUR < $deltaTime && $deltaTime <= SECONDS_IN_DAY) {
         $deltaTime = intdiv($deltaTime, SECONDS_IN_HOUR);
         return $deltaTime . ' ' . caseNumber($deltaTime, HOUR_CASES) . ' назад';
-    }
-    elseif (SECONDS_IN_DAY < $deltaTime && $deltaTime <= SECONDS_IN_MONTH)
-    {
+    } elseif (SECONDS_IN_DAY < $deltaTime && $deltaTime <= SECONDS_IN_MONTH) {
         $deltaTime = intdiv($deltaTime, SECONDS_IN_DAY);
         return $deltaTime . ' ' . caseNumber($deltaTime, DAY_CASES) . ' назад';
-    }
-    else
-    {
+    } else {
         return date('d', $timestamp) . ' ' . MONTH_LIST[date('n', $timestamp)] . ' ' . date('Y', $timestamp);
     }
 }
-
-?>

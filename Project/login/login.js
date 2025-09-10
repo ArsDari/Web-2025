@@ -1,52 +1,57 @@
+const URL_API = "../api/";
+const URL_ICON = "../content/media/icons/";
+
+const setShow = (div, force) => div.classList.toggle("hidden", !force);
+
 const enableEye = () => {
-    const passwordField = document.getElementById("password");
-    const eye = document.getElementById("eye");
+    const passwordField = document.querySelector(".login-form__field__input.password-field");
+    const eye = document.querySelector(".icon-eye");
     const eyeClassList = eye.classList;
     eye.addEventListener("click", () => {
-        if (eyeClassList.contains("eye-on")) {
-            eyeClassList.remove("eye-on");
-            passwordField.type = "password";
-            eye.src = "../content/media/icons/icon-eye-off.svg";
-        }
-        else {
-            eyeClassList.add("eye-on");
-            passwordField.type = "text";
-            eye.src = "../content/media/icons/icon-eye-on.svg";
-        }
+        eyeClassList.toggle("eye-on");
+        eye.src = eyeClassList.contains("eye-on") ?
+            URL_ICON + "icon-eye-on.svg" :
+            URL_ICON + "icon-eye.svg";
+        passwordField.type = eyeClassList.contains("eye-on") ? "text" : "password";
     });
 };
 
-const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
-// /текст/ короткий синтаксис регулярного выражения, ^ - якорь начала строки, $ - якорь конца строки
-// \s - класс пробельных символов, + - квантификатор одного или более символов, [...] - искать любой символ из заданного набора
-// [^...] - исключающий набор, [^\s@.] - исключить пробельные символы, @ . - исключенные символы
-// \. - символ точки, + - смотреть до конца
+async function sendLoginData(formData) {
+    const response = await fetch(URL_API + "login/", {
+        method: "POST",
+        body: formData
+    });
+    if (!response.ok) {
+        throw new Error(response.status);
+    }
+    return await response.json();
+}
 
 const enableLogin = () => {
-    const errorWindow = document.getElementById("error-window");
-    const errorIcon = document.getElementById("error-icon");
-    const errorText = document.getElementById("error-text");
-    const email = document.getElementById("email");
-    const emailExtraInfo = document.getElementById("email-extra-info");
-    const password = document.getElementById("password");
-    const sendButton = document.getElementById("send-button");
+    const errorWindow = document.querySelector(".error");
+    const errorIcon = document.querySelector(".error__icon");
+    const errorMessage = document.querySelector(".error__message");
+    const description = document.querySelector(".login-form__field__description");
     const form = document.getElementById("login-form");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const submitButton = document.getElementById("submit-button");
 
     const raiseErrorMessage = (text, icon) => {
-        errorText.innerText = text;
-        errorIcon.src = `../content/media/icons/${icon}`;
+        errorIcon.src = URL_ICON + icon;
+        errorMessage.innerText = text;
         errorWindow.classList.remove("hidden");
     };
 
     const setEmailError = () => {
         email.classList.add("input-error");
-        emailExtraInfo.classList.add("login-form__error-description");
+        description.classList.add("description-error");
         email.addEventListener("mousedown", removeEmailError, { once: true });
     };
 
     const removeEmailError = () => {
         email.classList.remove("input-error");
-        emailExtraInfo.classList.remove("login-form__error-description");
+        description.classList.remove("description-error");
         removeErrorWindow();
     };
 
@@ -61,20 +66,31 @@ const enableLogin = () => {
     };
 
     const removeErrorWindow = () => {
-        const errorFields = document.querySelectorAll(".input-error");
-        if (errorFields.length == 0) {
-            errorWindow.classList.add("hidden");
+        const errors = document.querySelectorAll(".input-error");
+        if (errors.length == 0) {
+            setShow(errorWindow, false);
         }
     };
 
-    const handleSend = event => {
+    const handleResponseFulfill = response => window.location.replace(`http://localhost:8001/profile/?id=${response["user_id"]}`);
+
+    const handleResponseError = error => {
+        setEmailError();
+        setPasswordError();
+        if (error.message == "401") {
+            raiseErrorMessage("Не те логин или пароль…", "unsure.png");
+        } else {
+            raiseErrorMessage("Неизвестная ошибка", "unsure.png");
+        }
+    };
+
+    const handleClick = event => {
         event.preventDefault();
         removeEmailError();
         removePasswordError();
-        const formData = new FormData(form);
-        const emailData = formData.get("email");
-        const passwordData = formData.get("password");
-        const isEmailValid = emailRegex.test(emailData);
+        const loginData = new FormData(form);
+        const emailData = loginData.get("email");
+        const passwordData = loginData.get("password");
         if (emailData.length == 0 || passwordData.length == 0) {
             if (emailData.length == 0) {
                 setEmailError();
@@ -85,18 +101,23 @@ const enableLogin = () => {
             raiseErrorMessage("Поля обязательные", "nerd.png");
             return;
         }
-        if (isEmailValid) {
-            setEmailError();
-            setPasswordError();
-            raiseErrorMessage("Не те логин или пароль...", "unsure.png");
+        if (emailData.includes("@")) {
+            sendLoginData(loginData).then(
+                handleResponseFulfill,
+                handleResponseError
+            );
         } else {
             setEmailError();
             raiseErrorMessage("Неверный формат электропочты", "unsure.png");
         }
     };
 
-    sendButton.addEventListener("click", handleSend);
+    submitButton.addEventListener("click", handleClick);
 };
 
-document.addEventListener("DOMContentLoaded", enableEye);
-document.addEventListener("DOMContentLoaded", enableLogin);
+const enableFeatures = () => {
+    enableEye();
+    enableLogin();
+};
+
+document.addEventListener("DOMContentLoaded", enableFeatures);

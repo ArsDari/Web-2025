@@ -4,6 +4,14 @@ const PATH_JSON = '../content/json/';
 const PATH_ICON = '../content/media/icons/';
 const PATH_IMAGE = '../content/media/images/';
 
+session_name("auth");
+session_start();
+if (empty($_SESSION["user_id"])) {
+    header("Location: ../login");
+    exit();
+}
+$sessionUserId = $_SESSION["user_id"];
+
 require '../database.php';
 require '../content/utilities/validation.php';
 
@@ -16,8 +24,6 @@ try {
 
 $posts = getPostsFromDB($connection);
 $users = getUsersFromDB($connection);
-
-$sessionUserId = 1; // заглушка для будущей сессии
 $userId = null;
 if (isset($_GET['id'])) {
     $recievedId = $_GET['id'];
@@ -45,7 +51,7 @@ require_once '../content/utilities/caseHandler.php';
 <body>
     <div class="page">
         <div class="sidebar">
-            <div class="sidebar__navigation">
+            <div class="sidebar__navigation navigation-upper">
                 <a href="../home" class="sidebar__navigation__shell sidebar__navigation-active">
                     <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />
                 </a>
@@ -53,7 +59,14 @@ require_once '../content/utilities/caseHandler.php';
                     <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'user.svg' ?>" alt="Профиль" />
                 </a>
                 <a href="../create_post" class="sidebar__navigation__shell">
-                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
+                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'plus.svg' ?>"
+                        alt="Выложить пост" />
+                </a>
+            </div>
+            <div class="sidebar__navigation navigation-lower">
+                <a href="../api/logout" class="sidebar__navigation__shell">
+                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'icon-logout.svg' ?>"
+                        alt="Выйти из аккаунта" />
                 </a>
             </div>
         </div>
@@ -72,7 +85,7 @@ require_once '../content/utilities/caseHandler.php';
                 $postText = $post['text'];
                 $postTime = strtotime($post['created_timestamp']);
                 $postLikes = $post['likes'];
-                $deltaTime = time() - $postTime + 10800; // сбросить часовые пояса
+                $deltaTime = time() - $postTime;
                 if ($deltaTime >= 0) {
                     require '../content/templates/post.php';
                 }
@@ -84,8 +97,10 @@ require_once '../content/utilities/caseHandler.php';
             <div class="modal__content">
                 <img class="modal__content__icon-close" src="<?= PATH_ICON . 'close.svg' ?>" alt="Домой" />
                 <div class="modal__content__images">
-                    <img class="icon-slider left-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Влево">
-                    <img class="icon-slider right-button" src="<?= PATH_ICON . 'slider-button.svg' ?>" alt="Вправо">
+                    <img class="modal-icon icon-slider left-button" src="<?= PATH_ICON . 'slider-button.svg' ?>"
+                        alt="Влево">
+                    <img class="modal-icon icon-slider right-button" src="<?= PATH_ICON . 'slider-button.svg' ?>"
+                        alt="Вправо">
                 </div>
                 <div class="modal__content__counter counter-text"></div>
             </div>

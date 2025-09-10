@@ -31,8 +31,17 @@ body {
 .sidebar__navigation {
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
     gap: 16px;
+}
+
+.navigation-upper {
+    position: absolute;
+    top: 40px;
+}
+
+.navigation-lower {
+    position: absolute;
+    bottom: 40px;
 }
 
 .sidebar__navigation__shell {
@@ -59,6 +68,18 @@ body {
     bottom: 0;
 }
 
+.message-field {
+    display: block;
+}
+
+.message-field__text {
+    font: 400 15px "Golos UI", sans-serif;
+    line-height: 18px;
+    letter-spacing: -0.15px;
+    text-align: center;
+    vertical-align: middle;
+}
+
 .creating-post {
     display: flex;
     flex-direction: column;
@@ -83,6 +104,7 @@ body {
     max-height: 474px;
     display: block;
     object-fit: contain;
+    user-select: none;
 }
 
 .info-message {
@@ -118,7 +140,7 @@ body {
 
 .icon-slider {
     position: absolute;
-    top: 221px;
+    top: 50%;
     cursor: pointer;
 }
 
@@ -149,7 +171,7 @@ body {
     color: #FFFFFF;
 }
 
-.upload {
+.upload-primary {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -158,50 +180,49 @@ body {
     user-select: none;
 }
 
-.upload__image {
+.upload-primary__image {
     margin-top: 8px;
     margin-bottom: 8px;
 }
 
-.upload__button {
+.button-primary {
     background-color: #222222;
     border-radius: 10px;
-    padding: 14px 16px 14px 16px;
-    border: 2px solid #222222;
     outline: none;
+    border: none;
+    padding: 14.5px 16px 14.5px 16px;
+    transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
-.upload__button:hover {
-    border-color: #373737;
-    background-color: #373737;
-}
-
-.upload__button:active {
-    border-color: #3F8AE0;
-    background-color: #222222;
-}
-
-.upload__button:disabled {
-    border-color: #B4B4B4;
-    background-color: #B4B4B4;
-    cursor: not-allowed;
-}
-
-.upload__button__text {
+.button-primary__text {
     display: block;
     font: 500 16px "Golos UI", sans-serif;
-    line-height: 100%;
+    line-height: 19px;
     letter-spacing: 0;
     color: #FFFFFF;
 }
 
-.upload-new {
+.button-primary:hover {
+    background-color: #373737;
+}
+
+.button-primary:active {
+    outline: 2px solid #3F8AE0;
+}
+
+.button-primary[disabled] {
+    outline: none;
+    background-color: #B4B4B4;
+    cursor: not-allowed;
+}
+
+.upload-secondary {
     margin-top: 16px;
     user-select: none;
 }
 
-.upload-new__button {
+.button-secondary {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -209,40 +230,39 @@ body {
     padding-top: 6px;
     padding-bottom: 6px;
     width: fit-content;
-    border: 2px solid #3F8AE000;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.upload-new__button:active {
-    border-color: #3F8AE0;
+.button-secondary:active {
+    outline: 2px solid #3F8AE0;
 }
 
-.upload-new__button__icon {
+.button-secondary__icon {
     width: 16px;
     height: 16px;
 }
 
-.upload-new__button__text {
+.button-secondary__text {
     font: 400 15px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
     color: #3F8AE0;
 }
 
-.new-post {
+.create-form {
     margin-top: 16px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 32px;
+    user-select: none;
 }
 
-.new-post__text {
+.create-form__text {
     font: 400 15px "Golos UI", sans-serif;
     line-height: 18px;
     letter-spacing: -0.15px;
-    color: #808080;
+    color: #222222;
     border: 0;
     outline: none;
     flex-grow: 1;
@@ -250,16 +270,17 @@ body {
     resize: none;
 }
 
+.create-form__text[placeholder] {
+    user-select: inherit;
+}
+
 .create-form__submit-button {
+    margin-top: 32px;
+    width: fit-content;
     font: 400 16px "Golos UI", sans-serif;
     line-height: 100%;
     letter-spacing: 0;
     color: #FFFFFF;
-}
-
-.disabled {
-    border-color: #B4B4B4;
-    background-color: #B4B4B4;
 }
 
 .hidden {

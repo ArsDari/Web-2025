@@ -1,5 +1,12 @@
 <?php
 
+session_name("auth");
+session_start();
+if (!empty($_SESSION["user_id"])) {
+    header("Location: ../profile?id=" . $_SESSION["user_id"]);
+    exit();
+}
+
 const PATH_ICON = '../content/media/icons/';
 const PATH_IMAGE = '../content/media/images/';
 
@@ -23,21 +30,28 @@ const PATH_IMAGE = '../content/media/images/';
             <h1 class="sidebar__text">Войти</h1>
             <img class="sidebar__image" src="<?= PATH_IMAGE . 'login.jpg' ?>" alt="Ошибка">
         </div>
-        <form id="login-form" class="login-form">
-            <div id="error-window" class="login-form__error hidden">
-                <img id="error-icon" class="login-form__error-icon">
-                <div id="error-text" class="login-form__error-message"></div>
+        <div class="menu">
+            <div class="error hidden">
+                <img class="error__icon">
+                <div class="error__message"></div>
             </div>
-            <label for="email" class="login-form__input-description">Электропочта</label>
-            <input id="email" type="email" name="email" class="login-form__input-field" autocomplete="email">
-            <div id="email-extra-info" class="login-form__input-extra-info">Введите электропочту в формате *****@***.**</div>
-            <label for="password" class="login-form__input-description">Пароль</label>
-            <div class="login-form__password">
-                <input id="password" type="password" name="password" class="login-form__password-field" autocomplete="current-password">
-                <img id="eye" class="login-form__button-eye" src="<?= PATH_ICON . 'icon-eye-off.svg' ?>" alt="Скрыть">
-            </div>
-            <input id="send-button" type="submit" class="login-form__button-submit" value="Продолжить">
-        </form>
+            <form id="login-form" class="login-form">
+                <div class="login-form__field">
+                    <label class="login-form__field__label" for="email">Электропочта</label>
+                    <input class="login-form__field__input" id="email" type="email" name="email" autocomplete="email">
+                    <div class="login-form__field__description">Введите электропочту в формате *****@***.**</div>
+                </div>
+                <div class="login-form__field">
+                    <label class="login-form__field__label" for="password">Пароль</label>
+                    <div class="login-form__field__password">
+                        <input class="login-form__field__input password-field" id="password" type="password"
+                            name="password" autocomplete="current-password">
+                        <img class="icon-eye" src="<?= PATH_ICON . 'icon-eye.svg' ?>" alt="Скрыть">
+                    </div>
+                </div>
+            </form>
+            <input class="submit-button" id="submit-button" type="submit" value="Продолжить" form="login-form">
+        </div>
     </div>
 </body>
 

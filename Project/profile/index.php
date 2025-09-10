@@ -6,6 +6,13 @@ const PATH_IMAGE = '../content/media/images/';
 const POST_STRING_CASES = ['пост', 'поста', 'постов'];
 const ROW = 3;
 
+session_name("auth");
+session_start();
+if (empty($_SESSION["user_id"])) {
+    header("Location: ../login");
+    exit();
+}
+
 require '../database.php';
 require '../content/utilities/validation.php';
 require '../content/utilities/caseHandler.php';
@@ -81,7 +88,7 @@ function printGridOfPosts($userPosts, $connection)
 <body>
     <div class="page"> 
         <div class="sidebar">
-            <div class="sidebar__navigation">
+            <div class="sidebar__navigation navigation-upper">
                 <a href="../home" class="sidebar__navigation__shell">
                     <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'home.svg' ?>" alt="Домой" />
                 </a>
@@ -90,6 +97,12 @@ function printGridOfPosts($userPosts, $connection)
                 </a>
                 <a href="../create_post" class="sidebar__navigation__shell">
                     <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'plus.svg' ?>" alt="Выложить пост" />
+                </a>
+            </div>
+            <div class="sidebar__navigation navigation-lower">
+                <a href="../api/logout" class="sidebar__navigation__shell">
+                    <img class="sidebar__navigation__shell__icon" src="<?= PATH_ICON . 'icon-logout.svg' ?>"
+                        alt="Выйти из аккаунта" />
                 </a>
             </div>
         </div>

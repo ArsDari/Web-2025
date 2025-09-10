@@ -26,8 +26,17 @@ a {
 .sidebar__navigation {
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
     gap: 16px;
+}
+
+.navigation-upper {
+    position: absolute;
+    top: 40px;
+}
+
+.navigation-lower {
+    position: absolute;
+    bottom: 40px;
 }
 
 .sidebar__navigation__shell {
@@ -97,15 +106,23 @@ a {
 
 .header__icon-edit {
     cursor: pointer;
+    outline: none;
+    border-radius: 2px;
+}
+
+.header__icon-edit:hover {
+    outline: 2px solid #3F8AE0;
 }
 
 .post-images {
     position: relative;
+    background-color: #F2F3F5;
     z-index: 0;
 }
 
 .post-image {
     display: block;
+    object-fit: contain;
     width: 474px;
     height: 474px;
     cursor: pointer;
@@ -152,9 +169,8 @@ a {
     align-items: center;
     gap: 3px;
     width: fit-content;
-    height: 30px;
     background-color: #2222220D;
-    border: 1px solid #00000000;
+    outline: 1px solid #00000000;
     border-radius: 8px;
     padding: 6px 12px 6px 12px;
     margin-top: 16px;
@@ -168,7 +184,7 @@ a {
 }
 
 .reaction-field:active {
-    border: 1px solid #FF000030
+    outline-color: #FF000030;
 }
 
 .reaction-field__counter {
@@ -197,9 +213,12 @@ a {
 }
 
 .less {
-    display: -webkit-box; /* -webkit префикс бразуера, в моем случае Chrome. В данном случае это аналог флекса */
-    -webkit-box-orient: vertical; /* вертикальная ориентация */
-    -webkit-line-clamp: 2; /* ограничивает количество строк и обрезает их в случае переполнения */
+    display: -webkit-box;
+    /* -webkit префикс бразуера, в моем случае Chrome. В данном случае это аналог флекса */
+    -webkit-box-orient: vertical;
+    /* вертикальная ориентация */
+    -webkit-line-clamp: 2;
+    /* ограничивает количество строк и обрезает их в случае переполнения */
     line-clamp: 2;
     overflow: hidden;
 }
@@ -246,11 +265,16 @@ a {
     position: relative;
 }
 
+.modal-icon {
+    z-index: 1;
+}
+
 .modal__content__image {
     display: block;
-    max-width: 848px;
-    max-height: 636px;
+    width: 636px;
+    height: 636px;
     object-fit: contain;
+    background-color: #F2F3F5;
 }
 
 .modal__content__counter {
