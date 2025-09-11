@@ -18,13 +18,13 @@ const addTextFolding = post => {
 };
 
 const addSlider = postImages => {
-    const images = postImages.querySelectorAll('.post-image');
+    const images = postImages.querySelectorAll(".post-image");
     if (images.length > 1) {
         let currentImageIndex = 0;
         images.forEach((image, index) => setShow(image, index == 0));
-        const sliderLeft = postImages.querySelector('.icon-slider.left-button');
-        const sliderRight = postImages.querySelector('.icon-slider.right-button');
-        const counterField = postImages.querySelector('.counter-field');
+        const sliderLeft = postImages.querySelector(".icon-slider.left-button");
+        const sliderRight = postImages.querySelector(".icon-slider.right-button");
+        const counterField = postImages.querySelector(".counter-field");
         const updateCounter = () => counterField.textContent = `${currentImageIndex + 1}/${images.length}`;
         const moveImage = (direction, step) => {
             setShow(images[currentImageIndex], false);
@@ -42,16 +42,15 @@ const addSlider = postImages => {
 };
 
 const enableModalWindow = () => {
-    const modalWindow = document.querySelector('.modal');
-    const modalIconClose = document.querySelector('.modal__content__icon-close');
-    const modalImages = document.querySelector('.modal__content__images');
-    const sliderLeft = modalWindow.querySelector('.icon-slider.left-button');
-    const sliderRight = modalWindow.querySelector('.icon-slider.right-button');
-    const counter = document.querySelector('.modal__content__counter');
+    const modalWindow = document.querySelector(".modal");
+    const modalIconClose = document.querySelector(".modal__content__icon-close");
+    const modalImages = document.querySelector(".modal__content__images");
+    const sliderLeft = modalWindow.querySelector(".icon-slider.left-button");
+    const sliderRight = modalWindow.querySelector(".icon-slider.right-button");
+    const counter = document.querySelector(".modal__content__counter");
 
     let currentImageIndex = 0;
     let currentImages = [];
-
     const updateCounter = () => counter.textContent = `${currentImageIndex + 1} из ${currentImages.length}`;
     const moveImage = (direction, step) => {
         setShow(currentImages[currentImageIndex], false);
@@ -63,7 +62,6 @@ const enableModalWindow = () => {
         setShow(currentImages[currentImageIndex], true);
         updateCounter();
     };
-
     sliderLeft.addEventListener("click", () => moveImage("left", 1));
     sliderRight.addEventListener("click", () => moveImage("right", 1));
 
@@ -78,8 +76,8 @@ const enableModalWindow = () => {
     }
 
     const handleClickOnImage = event => {
-        const post = event.target.closest('.post');
-        const postImages = [...post.querySelectorAll('.post-image')];
+        const post = event.target.closest(".post");
+        const postImages = [...post.querySelectorAll(".post-image")];
         currentImageIndex = postImages.indexOf(event.target);
         postImages.forEach((img, index) => copyNodeImg(img, index));
         if (currentImages.length == 1) {
@@ -92,17 +90,17 @@ const enableModalWindow = () => {
     }
 
     const openWindow = () => {
-        document.body.classList.add('scroll-block');
+        document.body.classList.add("scroll-block");
         setShow(modalWindow, true);
-        modalIconClose.addEventListener("click", handleCloseWindow);
+        modalIconClose.addEventListener("click", closeWindow);
         document.addEventListener("keydown", handleKeyboard);
     }
 
-    const handleCloseWindow = () => {
-        modalIconClose.removeEventListener("click", handleCloseWindow);
+    const closeWindow = () => {
+        modalIconClose.removeEventListener("click", closeWindow);
         document.removeEventListener("keydown", handleKeyboard);
-        document.body.classList.remove('scroll-block');
-        modalImages.querySelectorAll('.modal__content__image').forEach(img => img.remove());
+        document.body.classList.remove("scroll-block");
+        modalImages.querySelectorAll(".modal__content__image").forEach(img => img.remove());
         currentImages = [];
         setShow(modalWindow, false);
         setShow(sliderLeft, true);
@@ -111,18 +109,18 @@ const enableModalWindow = () => {
     }
 
     const handleKeyboard = event => {
-        if (event.key == 'Escape') {
-            handleCloseWindow();
+        if (event.key == "Escape") {
+            closeWindow();
         }
     }
 
-    document.querySelectorAll('.post-image').forEach(post => post.addEventListener("click", handleClickOnImage));
+    document.querySelectorAll(".post-image").forEach(post => post.addEventListener("click", handleClickOnImage));
 }
 
 const enableFeatures = () => {
     document.querySelectorAll(".post").forEach(addTextFolding);
-    document.querySelectorAll('.post-images').forEach(addSlider);
+    document.querySelectorAll(".post-images").forEach(addSlider);
     enableModalWindow();
 }
 
-document.addEventListener('DOMContentLoaded', enableFeatures);
+document.addEventListener("DOMContentLoaded", enableFeatures);

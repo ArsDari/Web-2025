@@ -102,16 +102,6 @@ const enableFeatures = () => {
     remove.addEventListener("click", removeImage);
     textArea.addEventListener("change", updateUI);
 
-    const handleResponseFulfill = response => {
-        setShow(creatingPost, false);
-
-        // Сделать показ
-    };
-
-    const handleResponseError = error => {
-        console.log(error.message);
-    };
-
     const handleUpload = event => {
         event.preventDefault();
         if (currentImages.length > 0 && getText().length > 0) {
