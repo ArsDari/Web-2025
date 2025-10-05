@@ -11,7 +11,7 @@ function sendResponse($responseCode, $response)
 }
 
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
-    sendResponse(501, ["message" => "Not Implemented"]);
+    sendResponse(501, ["message" => "Method Not Implemented"]);
 }
 
 require "database.php";
@@ -22,7 +22,7 @@ try {
 }
 
 if (empty($_POST["user_id"])) {
-    sendResponse(400, ["message" => "User id is absent"]);
+    sendResponse(400, ["message" => "User id is not found"]);
 }
 $user = getUserFromDB($connection, $_POST["user_id"]);
 if (!$user) {
@@ -36,7 +36,7 @@ if (empty($text) || strlen($text) > MAX_TEXT_LENGTH) {
 }
 
 if (empty($_FILES["image"]["name"][0])) {
-    sendResponse(400, ["message" => "No image or images sent"]);
+    sendResponse(400, ["message" => "No image or images was sent"]);
 }
 
 $tempFiles = [];
@@ -45,9 +45,9 @@ $fileTypes = $_FILES["image"]["type"]; // тип временного файла
 $uploadErrors = $_FILES["image"]["error"];
 foreach ($tempPaths as $indexPath => $tempPath) {
     if (!str_contains($fileTypes[$indexPath], IMAGE_EXTENSION)) {
-        sendResponse(400, ["message" => "Wrong file extension of one or many files"]);
+        sendResponse(400, ["message" => "Wrong file extension detected"]);
     }
-    if ($uploadErrors[$indexPath] != 0) {
+    if ($uploadErrors[$indexPath] != UPLOAD_ERR_OK) {
         sendResponse(400, ["message" => "Error occurred while file was uploading"]);
     }
     array_push($tempFiles, $tempPaths[$indexPath]);

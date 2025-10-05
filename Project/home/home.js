@@ -1,10 +1,10 @@
 const setShow = (div, force) => div.classList.toggle("hidden", !force);
 
 const addTextFolding = post => {
+    const MIN_LINES_TO_FOLD = 2;
     const text = post.querySelector(".post__text");
     const lineHeight = parseInt(window.getComputedStyle(text).lineHeight);
-    const lines = 2;
-    if (text.scrollHeight > lineHeight * lines) {
+    if (text.scrollHeight > lineHeight * MIN_LINES_TO_FOLD) {
         const foldButton = document.createElement("div");
         foldButton.classList.add("post__button-expand");
         foldButton.textContent = "ещё";
@@ -17,7 +17,7 @@ const addTextFolding = post => {
     }
 };
 
-const addSlider = postImages => {
+const enableSlider = postImages => {
     const images = postImages.querySelectorAll(".post-image");
     if (images.length > 1) {
         let currentImageIndex = 0;
@@ -51,6 +51,7 @@ const enableModalWindow = () => {
 
     let currentImageIndex = 0;
     let currentImages = [];
+
     const updateCounter = () => counter.textContent = `${currentImageIndex + 1} из ${currentImages.length}`;
     const moveImage = (direction, step) => {
         setShow(currentImages[currentImageIndex], false);
@@ -93,12 +94,12 @@ const enableModalWindow = () => {
         document.body.classList.add("scroll-block");
         setShow(modalWindow, true);
         modalIconClose.addEventListener("click", closeWindow);
-        document.addEventListener("keydown", handleKeyboard);
+        document.addEventListener("keyup", handleKeyboard);
     }
 
     const closeWindow = () => {
         modalIconClose.removeEventListener("click", closeWindow);
-        document.removeEventListener("keydown", handleKeyboard);
+        document.removeEventListener("keyup", handleKeyboard);
         document.body.classList.remove("scroll-block");
         modalImages.querySelectorAll(".modal__content__image").forEach(img => img.remove());
         currentImages = [];
@@ -119,7 +120,7 @@ const enableModalWindow = () => {
 
 const enableFeatures = () => {
     document.querySelectorAll(".post").forEach(addTextFolding);
-    document.querySelectorAll(".post-images").forEach(addSlider);
+    document.querySelectorAll(".post-images").forEach(enableSlider);
     enableModalWindow();
 }
 

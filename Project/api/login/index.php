@@ -5,6 +5,7 @@ const SALT = "ThisIsMySalt";
 function sendResponse($responseCode, $response)
 {
     http_response_code($responseCode);
+    $response["status"] = $responseCode;
     exit(json_encode($response));
 }
 

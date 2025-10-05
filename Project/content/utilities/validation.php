@@ -16,5 +16,3 @@ function validateImage($type, $size)
 {
     return true;
 }
-
-?>

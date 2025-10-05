@@ -16,17 +16,6 @@ const enableEye = () => {
     });
 };
 
-async function sendLoginData(formData) {
-    const response = await fetch(URL_API + "login/", {
-        method: "POST",
-        body: formData
-    });
-    if (!response.ok) {
-        throw new Error(response.status);
-    }
-    return await response.json();
-}
-
 const enableLogin = () => {
     const errorWindow = document.querySelector(".error");
     const errorIcon = document.querySelector(".error__icon");
@@ -72,9 +61,9 @@ const enableLogin = () => {
         }
     };
 
-    const handleResponseFulfill = response => window.location.replace(`http://localhost:8001/profile/?id=${response["user_id"]}`);
+    const handleLoginSuccess = response => window.location.replace(`http://localhost:8001/profile/?id=${response["user_id"]}`);
 
-    const handleResponseError = error => {
+    const handleLoginError = error => {
         setEmailError();
         setPasswordError();
         if (error.message == "401") {
@@ -102,10 +91,17 @@ const enableLogin = () => {
             return;
         }
         if (emailData.includes("@")) {
-            sendLoginData(loginData).then(
-                handleResponseFulfill,
-                handleResponseError
-            );
+            fetch(URL_API + "login/", {
+                method: "POST",
+                body: loginData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+                return response.json();
+            })
+            .then(handleLoginSuccess, handleLoginError);
         } else {
             setEmailError();
             raiseErrorMessage("Неверный формат электропочты", "unsure.png");
